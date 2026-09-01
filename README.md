@@ -4,13 +4,14 @@ Boilerplate del micrositio de registro para la promoción Chantelle. Vive en una
 
 ## Qué incluye
 
-- Landing y formulario mobile-first con un sistema visual editorial Chantelle.
+- Landing y formulario mobile-first con un sistema visual editorial Chantelle x El Palacio de Hierro.
 - Flujo de registro con validación en cliente y servidor.
 - UploadThing con carga directa, archivos privados, límite de 4 MB e intentos firmados con vencimiento.
 - Supabase como fuente de verdad, tablas con RLS forzada y sin acceso directo desde el navegador.
 - Folio único, detección de ticket duplicado y outbox para sincronizaciones.
 - Adaptadores opcionales para Google Sheets y correo de confirmación.
-- Analítica con consentimiento y una lista cerrada de eventos sin datos personales.
+- Sin cookies ni analítica de comportamiento; el aviso de privacidad debe reflejarlo al aprobarse.
+- SEO técnico, sitemap, robots, metadatos sociales y datos estructurados para explicar la promoción de forma clara.
 - Encabezados de seguridad, control de origen, honeypot y rate limiting distribuido.
 - Migración SQL inicial, pruebas unitarias y documentación de arquitectura, operación y seguridad.
 
@@ -56,15 +57,15 @@ El `--dry-run` es obligatorio en ambientes compartidos. La migración no concede
 npm run check
 ```
 
-También conviene ejecutar un registro E2E en preview con un ticket de prueba y comprobar Supabase, UploadThing, correo, exportación y eventos de analítica.
+También conviene ejecutar un registro E2E en preview con un ticket de prueba y comprobar Supabase, UploadThing, correo y exportación.
 
 ## Documentación
 
 - [Arquitectura](./docs/ARCHITECTURE.md)
 - [Sistema de diseño](./DESIGN_SYSTEM.md)
+- [SEO y presencia en buscadores](./docs/DISCOVERABILITY.md)
 - [Hitos de desarrollo](./MILESTONES.md)
 - [Modelo de datos](./docs/DATA_MODEL.md)
-- [Analítica](./docs/ANALYTICS.md)
 - [Integraciones](./docs/INTEGRATIONS.md)
 - [Seguridad](./docs/SECURITY.md)
 - [Operación y lanzamiento](./docs/OPERATIONS.md)

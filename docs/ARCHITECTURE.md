@@ -44,12 +44,13 @@ El archivo no atraviesa el servidor de la aplicación. El servidor solo firma la
 
 ```text
 src/app/                 páginas y Route Handlers
-src/components/          interfaz de registro y consentimiento
+src/components/          interfaz de registro y datos estructurados
 src/lib/config/          campaña y variables
 src/lib/data/            acceso server-only a Supabase
 src/lib/security/        HMAC, origen y rate limiting
 src/lib/integrations/    Sheets y correo
-src/lib/analytics/       catálogo y sanitización
+src/app/robots.ts        reglas de rastreo
+src/app/sitemap.ts       URLs públicas indexables
 supabase/migrations/     contrato versionado de base de datos
 docs/                    decisiones, operación y seguridad
 ```
@@ -57,10 +58,11 @@ docs/                    decisiones, operación y seguridad
 ## Ejecución
 
 - Node.js runtime para rutas con crypto, Supabase y UploadThing.
-- Server Components por defecto; el formulario y consentimiento son Client Components.
+- Server Components por defecto; el formulario es Client Component.
 - Sin estado en memoria para controles de producción.
 - Vercel Preview para QA y Production solo después del checklist.
 - Render dinámico de páginas para emitir un nonce CSP distinto en cada solicitud. Los recursos estáticos siguen cacheados por Next.js y Vercel.
+- La página principal incluye datos estructurados JSON-LD. Las rutas legales pendientes se marcan `noindex` hasta recibir aprobación.
 
 ## Decisiones pendientes
 

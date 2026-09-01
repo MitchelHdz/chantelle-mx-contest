@@ -3,7 +3,6 @@
 import { FormEvent, useRef, useState } from "react";
 
 import { campaign } from "@/lib/config/campaign";
-import { track } from "@/lib/analytics/events";
 import { useUploadThing } from "@/lib/uploadthing";
 
 type FormStatus = "idle" | "preparing" | "uploading" | "submitting" | "success" | "error";
@@ -18,7 +17,6 @@ type ApiResult = {
 
 export function RegistrationForm() {
   const formRef = useRef<HTMLFormElement>(null);
-  const startedRef = useRef(false);
   const [status, setStatus] = useState<FormStatus>("idle");
   const [progress, setProgress] = useState(0);
   const [message, setMessage] = useState("");
@@ -58,12 +56,9 @@ export function RegistrationForm() {
       website: String(data.get("website") ?? ""),
     };
 
-    let activeStage: FormStatus = "preparing";
-
     try {
       setMessage("");
       setStatus("preparing");
-      track("registration_submitted", { campaign: campaign.slug, store: payload.store });
 
       const intentResponse = await fetch("/api/upload-intents", {
         method: "POST",
@@ -80,14 +75,10 @@ export function RegistrationForm() {
       }
 
       setStatus("uploading");
-      activeStage = "uploading";
-      track("receipt_upload_started", { campaign: campaign.slug });
       const uploaded = await startUpload([receipt], { uploadIntent: intent.uploadIntent });
       if (!uploaded?.length) throw new Error("No pudimos subir la foto del ticket.");
-      track("receipt_upload_completed", { campaign: campaign.slug });
 
       setStatus("submitting");
-      activeStage = "submitting";
       const response = await fetch("/api/participations", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -103,15 +94,9 @@ export function RegistrationForm() {
       setFolio(result.folio);
       setStatus("success");
       formRef.current?.reset();
-      track("registration_succeeded", { campaign: campaign.slug, store: payload.store });
     } catch (error) {
       setStatus("error");
       setMessage(error instanceof Error ? error.message : "Ocurrió un error. Inténtalo nuevamente.");
-      track("registration_failed", {
-        campaign: campaign.slug,
-        stage: activeStage,
-        error_code: error instanceof Error ? error.name : "UNKNOWN_ERROR",
-      });
     }
   }
 
@@ -120,9 +105,8 @@ export function RegistrationForm() {
   if (status === "success") {
     return (
       <section className="success-panel" aria-live="polite">
-        <p className="eyebrow">Registro confirmado</p>
         <h2>Tu folio es {folio}</h2>
-        <p>Guárdalo. También enviaremos la confirmación al correo registrado cuando el servicio de correo esté activo.</p>
+        <p>Guárdalo para cualquier consulta sobre tu participación.</p>
         <button type="button" className="text-button" onClick={() => setStatus("idle")}>
           Registrar otro ticket
         </button>
@@ -135,12 +119,6 @@ export function RegistrationForm() {
       ref={formRef}
       className="registration-form"
       onSubmit={handleSubmit}
-      onFocus={() => {
-        if (!startedRef.current) {
-          startedRef.current = true;
-          track("registration_started", { campaign: campaign.slug });
-        }
-      }}
     >
       <div className="form-grid">
         <Field label="Nombre" name="firstName" autoComplete="given-name" minLength={2} maxLength={80} />
@@ -181,9 +159,7 @@ export function RegistrationForm() {
         <input name="consent" type="checkbox" required />
         <span>
           Acepto las <a href={campaign.rulesUrl}>bases de participación</a> y el{" "}
-          <a href={campaign.privacyUrl} onClick={() => track("privacy_opened", { campaign: campaign.slug })}>
-            aviso de privacidad
-          </a>
+          <a href={campaign.privacyUrl}>aviso de privacidad</a>
           .
         </span>
       </label>

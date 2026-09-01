@@ -11,7 +11,7 @@ Entregables:
 - Formulario, tiendas, vigencia, regla de duplicados y folio aprobados.
 - Bases y aviso de privacidad entregados por cliente o legal.
 - Proyectos dedicados de Supabase, UploadThing y Vercel.
-- Cuenta de correo y propiedad de GA4 confirmadas.
+- Cuenta de correo, dominio final y responsables de operación confirmados.
 
 Criterio de salida: no quedan decisiones abiertas que cambien datos, consentimiento o mecánica.
 
@@ -29,7 +29,7 @@ Criterio de salida: revisión visual aprobada en 390, 768, 1280 y 1440 px, con n
 
 ## Hito 2. Registro y comprobante
 
-Duración estimada: 2 días. Estado: flujo y contrato transaccional implementados; falta conexión real a Supabase, UploadThing y rate limiting para la validación E2E en Preview.
+Duración estimada: 2 días. Estado: Supabase dedicado y migraciones aplicadas; faltan credenciales de UploadThing y rate limiting para validar el recorrido E2E en Preview.
 
 Entregables:
 
@@ -53,18 +53,18 @@ Entregables:
 
 Criterio de salida: operación puede localizar, validar y exportar registros sin acceso a credenciales técnicas.
 
-## Hito 4. Analítica y calidad
+## Hito 4. Calidad y descubrimiento
 
 Duración estimada: 1 a 2 días.
 
 Entregables:
 
-- Consentimiento, eventos GA4 y tablero de conversión.
+- Metadatos, icono, sitemap, robots y datos estructurados revisados con la URL final.
 - Pruebas unitarias, integración y E2E.
 - Revisión de accesibilidad, dispositivos reales, carga lenta y archivos inválidos.
-- Verificación de que no aparecen datos personales en analítica, logs o URLs.
+- Verificación de que no aparecen datos personales en logs o URLs.
 
-Criterio de salida: evidencia de eventos en DebugView y recorrido completo sin defectos bloqueantes.
+Criterio de salida: recorrido completo sin defectos bloqueantes y las rutas públicas muestran metadatos correctos.
 
 ## Hito 5. Revisión del cliente
 

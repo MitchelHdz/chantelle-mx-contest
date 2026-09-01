@@ -1,57 +1,57 @@
 import Image from "next/image";
 
 import { RegistrationForm } from "@/components/registration-form";
+import { StructuredData } from "@/components/structured-data";
 
 export default function Home() {
   return (
-    <main>
+    <main className="campaign-page">
+      <StructuredData />
       <header className="site-header">
-        <a className="wordmark" href="#inicio" aria-label="Chantelle, inicio">
-          CHANTELLE
+        <a className="brand-lockup" href="#inicio" aria-label="Chantelle y El Palacio de Hierro, inicio">
+          <Image className="brand-lockup__chantelle" src="/brand/chantelle.svg" alt="Chantelle" width={280} height={34} priority />
+          <span aria-hidden="true">×</span>
+          <Image className="brand-lockup__palacio" src="/brand/el-palacio-de-hierro.png" alt="El Palacio de Hierro" width={240} height={240} priority />
         </a>
-        <span>Paris depuis 1876</span>
       </header>
 
       <section id="inicio" className="hero">
+        <div className="hero__content">
+          <h1>Vive París</h1>
+          <p className="hero__lead">
+            Registra tu compra Chantelle en El Palacio de Hierro y participa por una experiencia en París.
+          </p>
+          <a className="button" href="#registro">Registrar mi compra</a>
+        </div>
         <div className="hero__image">
           <Image
             src="/images/paris-editorial.jpg"
-            alt="Vista editorial de París en blanco y negro"
+            alt="Vista de París en blanco y negro"
             fill
             priority
-            sizes="(max-width: 860px) 100vw, 52vw"
+            sizes="(max-width: 767px) 100vw, 50vw"
           />
-        </div>
-        <div className="hero__content">
-          <p className="eyebrow">Chantelle × El Palacio de Hierro</p>
-          <h1>Vive París</h1>
-          <p className="hero__lead">
-            Registra tu compra, sube una foto de tu ticket y recibe un folio para participar por una experiencia en París.
-          </p>
-          <a className="button" href="#registro">Registrar mi compra</a>
         </div>
       </section>
 
       <section className="mechanics" aria-labelledby="mecanica-title">
         <div>
-          <p className="eyebrow">Una participación clara</p>
-          <h2 id="mecanica-title">Tres pasos y tu folio queda listo</h2>
+          <h2 id="mecanica-title">Participar es muy sencillo</h2>
         </div>
         <ol>
-          <li><span>01</span><strong>Completa tus datos</strong><p>Usa el mismo nombre y contacto que quieres asociar a tu participación.</p></li>
-          <li><span>02</span><strong>Sube tu ticket</strong><p>La imagen viaja directamente al almacenamiento privado y no atraviesa nuestro servidor.</p></li>
-          <li><span>03</span><strong>Recibe tu folio</strong><p>Validamos el registro y te mostramos una confirmación inmediata.</p></li>
+          <li><strong>Completa tus datos</strong><p>Escribe los datos que usaste al hacer tu compra.</p></li>
+          <li><strong>Sube tu ticket</strong><p>El número debe verse claro en la foto.</p></li>
+          <li><strong>Guarda tu folio</strong><p>Al terminar verás el número de tu participación.</p></li>
         </ol>
       </section>
 
       <section id="registro" className="registration-section">
         <div className="registration-section__intro">
-          <p className="eyebrow">Registro</p>
-          <h2>Tu compra puede llevarte más lejos</h2>
-          <p>Ten a la mano tu ticket de compra. El registro toma cerca de dos minutos.</p>
+          <h2>Registra tu compra</h2>
+          <p>Ten a la mano tu ticket. Completar el formulario toma pocos minutos.</p>
           <div className="privacy-note">
-            <strong>Tu información se trata con cuidado.</strong>
-            <p>La foto queda privada y los datos solo se usan para operar esta promoción.</p>
+            <strong>Tu información se resguarda.</strong>
+            <p>La foto del ticket es privada y tus datos se usan sólo para esta promoción.</p>
           </div>
         </div>
         <div className="registration-section__form">
@@ -66,11 +66,11 @@ export default function Home() {
           fill
           sizes="100vw"
         />
-        <p>Parisian confidence, desde 1876.</p>
+        <p>Celebrando 150 años</p>
       </section>
 
       <footer>
-        <span>© {new Date().getFullYear()} Chantelle</span>
+        <span>© {new Date().getFullYear()} Chantelle y El Palacio de Hierro</span>
         <nav aria-label="Legal">
           <a href="/bases">Bases</a>
           <a href="/privacidad">Privacidad</a>

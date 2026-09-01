@@ -12,7 +12,7 @@
 | Acceso directo a datos | RLS forzada, sin grants a roles de navegador | Probar con anon key y revisar advisors |
 | CSRF o petición cruzada | Verificación exacta de `Origin` en POST | Probar dominios preview y producción |
 | Inyección y XSS | Zod, React escaping, CSP con nonce por solicitud y sin HTML libre | DAST en preview y revisión de dependencias |
-| PII en analítica o logs | Catálogo cerrado y sanitizador | Auditoría de Tag Assistant, Vercel Logs y errores |
+| PII en logs | No registrar payloads completos ni datos de formulario | Auditoría de Vercel Logs y errores |
 | Dependencia vulnerable | Versiones fijadas, lockfile y override de `effect` | Dependabot/Renovate y `npm audit` en CI |
 | Datos retenidos de más | `retention_until` | Job de purga y aprobación legal |
 
@@ -22,6 +22,7 @@
 - Usar proyectos separados para preview y producción.
 - Rotar `SUPABASE_SECRET_KEY`, `UPLOADTHING_TOKEN` y secretos HMAC por incidente o cambio de proveedor.
 - No registrar payloads completos. Los errores públicos usan códigos y mensajes controlados.
+- El sitio no incorpora cookies ni analítica de comportamiento. El aviso de privacidad aprobado debe conservar esta declaración y describir el tratamiento del registro.
 - No aceptar MIME o extensión como prueba suficiente. Antes de producción se debe inspeccionar firma mágica y recomprimir imágenes en un proceso aislado.
 - El panel administrativo requiere MFA, sesión corta, roles y auditoría.
 - Toda exportación debe expirar y quedar limitada a personal autorizado.
@@ -29,7 +30,7 @@
 
 ## Limitaciones conocidas del boilerplate
 
-- La creación de participación, folio, outbox y consumo del intent ocurre en varias operaciones. Las restricciones únicas evitan duplicados, pero el hito 2 debe mover la finalización a una transacción o función RPC server-only y probar carreras.
+- La finalización usa una función RPC para crear la participación, generar el folio, escribir el outbox y consumir el intent de forma atómica. Falta probar carreras y reintentos contra los servicios reales.
 - Falta un proceso de limpieza para archivos cargados cuyo registro no terminó.
 - El adaptador de rate limiting asume una API compatible con comandos Redis REST. Debe probarse con el proveedor elegido.
 - Las páginas legales son marcadores y bloquean la salida a producción.
@@ -43,7 +44,7 @@
 - [ ] Archivo inaccesible sin URL firmada.
 - [ ] Rate limit falla cerrado en producción.
 - [ ] CSP con nonce único y sin `unsafe-eval` en producción.
-- [ ] Datos personales ausentes de GA4, logs, Sentry y URLs.
+- [ ] Datos personales ausentes de logs, Sentry y URLs.
 - [ ] Prueba de duplicado y doble clic concurrente.
 - [ ] Borrado de registro elimina también archivo y copia de Sheets.
 - [ ] Respaldo, restauración y rotación de secretos probados.

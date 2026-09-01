@@ -5,11 +5,11 @@ export function proxy(request: NextRequest) {
   const isDevelopment = process.env.NODE_ENV === "development";
   const policy = [
     "default-src 'self'",
-    `script-src 'self' 'nonce-${nonce}' 'strict-dynamic'${isDevelopment ? " 'unsafe-eval'" : ""} https://www.googletagmanager.com`,
+    `script-src 'self' 'nonce-${nonce}' 'strict-dynamic'${isDevelopment ? " 'unsafe-eval'" : ""}`,
     "style-src 'self' 'unsafe-inline'",
-    "img-src 'self' data: blob: https://*.ufs.sh https://www.google-analytics.com",
+    "img-src 'self' data: blob: https://*.ufs.sh",
     "font-src 'self' data:",
-    "connect-src 'self' https://*.supabase.co https://*.uploadthing.com https://*.ufs.sh https://www.google-analytics.com https://region1.google-analytics.com",
+    "connect-src 'self' https://*.supabase.co https://*.uploadthing.com https://*.ufs.sh",
     "frame-src 'none'",
     "frame-ancestors 'none'",
     "base-uri 'self'",

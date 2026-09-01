@@ -2,22 +2,18 @@
 
 ## Dirección
 
-El micrositio debe sentirse como una pieza editorial de Chantelle que también resuelve una tarea práctica. La referencia es París contemporáneo: precisa, segura y sofisticada, sin ornamentos románticos ni efectos que resten confianza al formulario.
+La landing es una invitación de marca, no una pantalla de software. El tono combina la herencia de Chantelle con una mecánica sencilla: una persona debe entender qué hacer, registrar su compra y conservar su folio sin enfrentarse a lenguaje técnico ni a una interfaz recargada.
 
-La jerarquía tiene tres niveles claros:
-
-1. Tipografía display para campaña y mensajes emocionales.
-2. Sans serif para orientación, campos y acciones.
-3. Microtexto solo para ayuda, estados y aspectos legales.
+La composición parte de texto amplio, fotografía editorial y separadores finos. No usa tarjetas decorativas, gradientes de moda ni métricas de campaña. El formulario conserva una superficie propia para que se lea con claridad, pero no se presenta como un producto separado de la landing.
 
 ## Principios
 
-- El registro es la acción principal. Ningún recurso visual debe competir con él.
-- El espacio en blanco organiza; no se usan tarjetas flotantes como solución automática.
-- Las fotografías se recortan con intención y nunca se estiran.
-- El rojo aparece como señal de marca y énfasis, no como fondo permanente.
-- Las animaciones duran entre 180 y 250 ms y explican un cambio de estado.
-- Todo contenido importante mantiene contraste AA y un tamaño legible en móvil.
+- La primera lectura responde qué es la promoción y qué acción se espera.
+- El lenguaje es directo, cercano y legible para personas adultas y mayores.
+- Los logos de Chantelle y El Palacio de Hierro aparecen juntos en el encabezado como firma de la colaboración.
+- La fotografía acompaña al contenido; no lleva texto importante ni sustituye instrucciones.
+- El rojo se reserva para acciones, foco y acentos puntuales.
+- Solo hay transiciones cortas de interacción. No hay animación automática ni efectos decorativos.
 
 ## Tokens
 
@@ -25,53 +21,58 @@ Los tokens viven en `src/app/globals.css`.
 
 | Rol | Claro | Oscuro | Uso |
 |---|---:|---:|---|
-| Canvas | `#f4f0e9` | `#171513` | Fondo general |
-| Surface | `#ebe4da` | `#211e1b` | Zona de formulario |
-| Ink | `#171513` | `#efe9e0` | Texto y acción principal |
-| Muted | `#665f58` | `#b9afa5` | Texto secundario |
-| Accent | `#a92532` | `#e65b68` | Marca y estados destacados |
-| Line | `#c9beb1` | `#4a433d` | Separadores y campos |
+| Canvas | `#f6f6f3` | `#191918` | Fondo general |
+| Surface | `#ecece7` | `#252522` | Área del formulario |
+| Ink | `#20201e` | `#f1f0eb` | Texto y acción principal |
+| Muted | `#5f5f59` | `#c4c3ba` | Texto secundario |
+| Accent | `#a51f36` | `#e15c70` | Acción y énfasis |
+| Line | `#c7c7bf` | `#575750` | Separadores y campos |
 
-La escala espacial parte de 4 px y usa 8, 12, 16, 24, 32, 48, 72 y 112 px. El radio máximo habitual es 2 px.
+La escala espacial usa 4, 8, 12, 16, 24, 32, 48, 72 y 112 px. Los bordes son rectos para mantener una sensación editorial y sobria.
 
 ## Tipografía
 
-- `Bodoni Moda`: H1 y H2. Su alto contraste se justifica por el carácter editorial y de moda de la campaña.
-- `Manrope`: navegación, texto, formulario y estados.
-- H1: `clamp(72px, 17vw, 160px)`.
-- H2: `clamp(43px, 7vw, 90px)`.
+- `Bodoni Moda`: títulos. Su alto contraste se justifica por la campaña de moda y su uso se limita a momentos de jerarquía.
+- `Manrope`: navegación, texto, formulario y estados. Prioriza claridad en tamaños normales.
+- H1: `clamp(70px, 17vw, 160px)`.
+- H2: `clamp(42px, 6vw, 85px)`.
 - Cuerpo: 16 a 20 px según contexto.
-- Etiquetas: 13 px, peso 700, sin reducir el contenido de ayuda por debajo de 13 px.
+- Etiquetas: mínimo 14 px; las instrucciones y mensajes de ayuda nunca dependen solo del color.
 
 ## Componentes
 
-### Botón principal
+### Firma de marca
 
-Rectangular, fondo tinta y etiqueta en mayúsculas. En hover adopta el rojo de marca. Tiene una altura mínima de 56 px y conserva foco visible.
+El encabezado combina el SVG oficial de Chantelle, el signo de colaboración y el archivo de El Palacio de Hierro. Tiene texto alternativo útil y sigue siendo un enlace claro hacia el inicio.
 
-### Campo
+### Acción principal
 
-Etiqueta encima, altura mínima de 54 px, fondo del canvas y borde de 1 px. Los errores se explican con texto; el color nunca es la única señal.
+El botón principal es rectangular, con alto mínimo de 55 px, contraste alto y foco visible. Cambia al rojo únicamente al interactuar. No hay iconos superfluos ni llamados competidores.
 
-### Carga de ticket
+### Mecánica
 
-Área de borde discontinuo, instrucciones de peso y legibilidad, progreso numérico y estado persistente. No muestra una URL pública.
+Tres instrucciones en lenguaje cotidiano, separadas por líneas. No se numeran porque el orden ya se entiende al leerlas y se evita ruido visual innecesario.
 
-### Confirmación
+### Formulario
 
-Reemplaza el formulario, presenta el folio como información principal y ofrece registrar otro ticket. No usa confeti ni animaciones decorativas.
+Las etiquetas están sobre cada control y la foto del ticket pide requisitos concretos: formato, peso y legibilidad. Los errores se muestran con texto y no solo con color. La confirmación prioriza el folio y evita confeti o celebraciones automáticas.
 
-## Responsive
+### Cierre editorial
 
-- Móvil, 320 a 767 px: una columna, imagen antes del mensaje y controles de ancho completo.
-- Tablet, 768 a 1023 px: dos columnas donde el contenido lo permite.
-- Desktop, 1024 px en adelante: hero dividido y formulario junto a la explicación.
-- El modo oscuro se activa con la preferencia del sistema y conserva el carácter de marca.
+La frase final aprobada es: `Celebrando 150 años`. Se superpone sobre una imagen únicamente como cierre de marca y mantiene contraste mediante una capa discreta.
+
+## Responsive y preferencias
+
+- Móvil, 320 a 767 px: el mensaje y la acción se ven antes de la fotografía; controles a una columna y zonas táctiles cómodas.
+- Tablet, 768 a 1023 px: hero dividido y formulario en dos columnas cuando el espacio lo permite.
+- Desktop, 1024 px en adelante: explicación y formulario quedan lado a lado para reducir desplazamiento.
+- Modo oscuro: usa los mismos pesos visuales, ajusta contraste y conserva la legibilidad de los logos.
+- `prefers-reduced-motion`: elimina el desplazamiento suave y reduce las transiciones.
 
 ## Accesibilidad
 
-- Etiquetas nativas en todos los campos.
-- Foco de 3 px y contraste independiente del color de marca.
-- Mensajes de error con `role="alert"` y confirmación con `aria-live`.
-- Respeto a `prefers-reduced-motion`.
-- Imágenes editoriales con texto alternativo; elementos decorativos deben usar alt vacío.
+- Todos los campos tienen etiqueta nativa.
+- El foco visible usa un contorno de 3 px.
+- Errores usan `role="alert"` y la confirmación usa `aria-live`.
+- Las imágenes llevan texto alternativo descriptivo; la imagen de marca no es decorativa.
+- El contenido, controles y estados deben comprobarse a 390, 768, 1280 y 1440 px antes de publicar.
