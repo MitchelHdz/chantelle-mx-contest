@@ -17,7 +17,7 @@ export default function Home() {
 
       <section id="inicio" className="hero">
         <div className="hero__content">
-          <h1>Vive París</h1>
+          <h1>Chantelle te lleva a París</h1>
           <p className="hero__lead">
             Registra tu compra Chantelle en El Palacio de Hierro y participa por una experiencia en París.
           </p>

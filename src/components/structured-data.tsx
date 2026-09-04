@@ -1,10 +1,10 @@
 const structuredData = {
   "@context": "https://schema.org",
   "@type": "WebPage",
-  name: "Vive París",
+  name: "Chantelle te lleva a París",
   description: "Registro de compra de Chantelle en El Palacio de Hierro para participar por una experiencia en París.",
   inLanguage: "es-MX",
-  isPartOf: { "@type": "WebSite", name: "Vive París" },
+  isPartOf: { "@type": "WebSite", name: "Chantelle te lleva a París" },
   about: [
     { "@type": "Organization", name: "Chantelle" },
     { "@type": "Organization", name: "El Palacio de Hierro" },

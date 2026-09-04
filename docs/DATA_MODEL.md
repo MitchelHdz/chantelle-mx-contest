@@ -4,7 +4,7 @@
 
 ### `campaigns`
 
-Configura estado y vigencia. El boilerplate crea `chantelle-vive-paris` como borrador para impedir una apertura accidental.
+Configura estado y vigencia. El boilerplate crea el slug técnico `chantelle-vive-paris` con el nombre comercial “Chantelle te lleva a París”, en estado borrador para impedir una apertura accidental.
 
 ### `upload_intents`
 

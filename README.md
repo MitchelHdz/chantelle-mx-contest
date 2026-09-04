@@ -1,4 +1,4 @@
-# Chantelle Vive París
+# Chantelle te lleva a París
 
 Boilerplate del micrositio de registro para la promoción Chantelle. Vive en una carpeta independiente para conservar la cotización estática sin cambios y permitir que Vercel trate esta aplicación como un proyecto separado.
 

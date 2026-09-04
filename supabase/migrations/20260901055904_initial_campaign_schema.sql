@@ -237,5 +237,5 @@ revoke all on sequence public.integration_outbox_id_seq from anon, authenticated
 revoke all on sequence public.audit_events_id_seq from anon, authenticated;
 
 insert into public.campaigns (slug, name, status)
-values ('chantelle-vive-paris', 'Vive París', 'draft')
+values ('chantelle-vive-paris', 'Chantelle te lleva a París', 'draft')
 on conflict (slug) do nothing;
