@@ -111,15 +111,50 @@ h2 { font-size: clamp(2.65rem, 6vw, 5.3rem); }
 .field input, .field select { appearance: none; background: var(--canvas); border: 1px solid var(--line); border-radius: 0; color: var(--ink); min-height: 3.35rem; padding: 0.72rem 0.85rem; transition: border-color 160ms ease, box-shadow 160ms ease; width: 100%; }
 .field input:hover, .field select:hover { border-color: var(--muted); }
 .field input:focus, .field select:focus { border-color: var(--focus); box-shadow: 0 0 0 1px var(--focus); outline: none; }
-.upload-field input { background: transparent; border-style: dashed; min-height: 6.5rem; padding: var(--space-5); }
+.upload-field { position: relative; }
+.upload-picker__input { block-size: 1px; clip-path: inset(50%); inline-size: 1px; opacity: 0; overflow: hidden; position: absolute; white-space: nowrap; }
+.upload-picker {
+  background: color-mix(in srgb, var(--canvas) 74%, var(--surface));
+  border: 1px solid var(--line);
+  min-height: 12.25rem;
+  overflow: hidden;
+  position: relative;
+  transition: background 180ms ease, border-color 180ms ease, transform 180ms ease;
+}
+.upload-picker::before { background: linear-gradient(90deg, var(--accent) 0 4.4rem, transparent 4.4rem); block-size: 2px; content: ""; inset: 0 0 auto; position: absolute; transform: scaleX(0.24); transform-origin: left; transition: transform 180ms ease; }
+.upload-picker:hover, .upload-picker:focus-within { border-color: var(--ink); }
+.upload-picker:hover::before, .upload-picker:focus-within::before, .upload-picker--selected::before { transform: scaleX(1); }
+.upload-picker--dragging { background: color-mix(in srgb, var(--accent) 8%, var(--canvas)); border-color: var(--accent); transform: translateY(-1px); }
+.upload-picker--error { border-color: var(--danger); }
+.upload-picker__empty { align-items: flex-start; background: transparent; border: 0; color: var(--ink); cursor: pointer; display: grid; gap: var(--space-2); justify-items: start; min-height: 12.25rem; padding: var(--space-6); text-align: left; width: 100%; }
+.upload-picker__empty strong { font-family: var(--font-display), serif; font-size: clamp(1.42rem, 3vw, 2rem); font-weight: 500; letter-spacing: -0.025em; line-height: 1.04; }
+.upload-picker__empty > span { color: var(--muted); font-size: 0.95rem; }
+.upload-picker__empty small { border-top: 1px solid var(--line); color: var(--muted); font-size: 0.78rem; margin-top: var(--space-3); padding-top: var(--space-3); width: 100%; }
+.upload-picker__empty:active { transform: translateY(1px); }
+.upload-picker__empty:disabled { cursor: wait; opacity: 0.6; }
+.upload-picker__selected { display: grid; min-height: 12.25rem; }
+.upload-picker__preview { background-color: var(--surface); background-position: center; background-repeat: no-repeat; background-size: cover; block-size: 100%; inline-size: 100%; max-height: 14rem; }
+.upload-picker__details { align-content: center; display: grid; gap: var(--space-1); padding: var(--space-5); }
+.upload-picker__details p { font-size: 1rem; font-weight: 750; margin: 0; }
+.upload-picker__details > span { font-size: 0.9rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.upload-picker__details small { color: var(--muted); font-size: 0.8rem; }
+.upload-picker__actions { align-items: center; display: flex; flex-wrap: wrap; gap: var(--space-4); margin-top: var(--space-2); }
+.text-button--quiet { color: var(--muted); }
+.field-error { color: var(--danger); font-size: 0.88rem; font-weight: 700; margin: 0; }
 .checkbox { align-items: flex-start; display: flex; gap: var(--space-3); margin: var(--space-5) 0; }
 .checkbox input { accent-color: var(--accent); height: 1.15rem; margin-top: 0.25rem; width: 1.15rem; }
 .checkbox span { color: var(--muted); font-size: 0.9rem; }
 .button--submit { width: 100%; }
 .honeypot { height: 1px; left: -10000px; overflow: hidden; position: absolute; width: 1px; }
-.progress { margin-bottom: var(--space-4); }
-.progress::before { background: var(--line); content: ""; display: block; height: 3px; width: 100%; }
-.progress > span { background: var(--accent); display: block; height: 3px; margin-top: -3px; transition: width 160ms ease; }
+.upload-status { border-top: 1px solid var(--line); display: grid; gap: var(--space-4); margin: var(--space-5) 0; padding-top: var(--space-5); }
+.upload-status__steps { display: grid; gap: var(--space-2); grid-template-columns: repeat(3, 1fr); }
+.upload-status__steps span { border-top: 2px solid var(--line); color: var(--muted); font-size: 0.73rem; font-weight: 750; letter-spacing: 0.04em; padding-top: var(--space-2); text-transform: uppercase; }
+.upload-status__steps .is-active { border-color: var(--accent); color: var(--ink); }
+.upload-status__steps .is-complete { border-color: var(--success); color: var(--ink); }
+.upload-status > p { color: var(--muted); margin: 0; }
+.progress { display: grid; gap: var(--space-2); }
+.progress::before { background: var(--line); content: ""; grid-area: 1 / 1; height: 4px; width: 100%; }
+.progress > span { background: var(--accent); grid-area: 1 / 1; height: 4px; transition: width 160ms ease; }
 .progress small { color: var(--muted); }
 .form-error { color: var(--danger); font-weight: 700; }
 
@@ -148,6 +183,8 @@ footer nav { display: flex; gap: var(--space-5); }
   .mechanics li { grid-template-columns: minmax(10rem, 0.62fr) 1fr; }
   .form-grid { grid-template-columns: 1fr 1fr; }
   .field--wide { grid-column: 1 / -1; }
+  .upload-picker__selected { grid-template-columns: minmax(11rem, 0.72fr) minmax(0, 1.28fr); }
+  .upload-picker__preview { block-size: 100%; max-height: none; min-height: 12.25rem; }
   .registration-section__form { padding: var(--space-7); }
   .editorial-close, footer { padding-inline: var(--space-7); }
 }
