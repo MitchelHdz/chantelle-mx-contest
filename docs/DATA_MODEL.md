@@ -24,9 +24,13 @@ Desacopla registro de correo y Sheets. Un worker toma eventos pendientes, reinte
 
 Registra acciones administrativas. `metadata` no debe contener correo, teléfono, ticket completo ni enlaces de comprobante.
 
+### `private.rate_limit_buckets`
+
+Guarda el contador temporal de solicitudes por alcance y huella HMAC del origen. No conserva IPs en claro, no se expone por la API pública y los buckets vencidos se eliminan al recibir nuevas solicitudes. Esta tabla permite limitar registros sin Redis ni una integración adicional.
+
 ## Permisos
 
-Las cinco tablas tienen RLS habilitada y forzada. No existen políticas públicas y se revocan permisos a `anon` y `authenticated`. La aplicación pública opera mediante un cliente server-only con secret key.
+Las tablas de campaña y `private.rate_limit_buckets` tienen RLS habilitada y forzada. No existen políticas públicas y se revocan permisos a `anon` y `authenticated`. La aplicación pública opera mediante un cliente server-only con secret key.
 
 El panel administrativo se implementará con Supabase Auth, MFA para operadores y rutas server-side. No se debe abrir `select` directo al navegador para resolver el panel rápidamente.
 

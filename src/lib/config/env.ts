@@ -11,8 +11,6 @@ const serverEnvSchema = z.object({
   UPLOADTHING_TOKEN: z.string().min(20),
   PII_HASH_SECRET: z.string().min(32),
   UPLOAD_INTENT_SECRET: z.string().min(32),
-  RATE_LIMIT_REST_URL: z.url().optional(),
-  RATE_LIMIT_REST_TOKEN: z.string().min(8).optional(),
   GOOGLE_SHEETS_WEBHOOK_URL: z.url().optional(),
   GOOGLE_SHEETS_WEBHOOK_SECRET: z.string().min(16).optional(),
   RESEND_API_KEY: z.string().min(8).optional(),

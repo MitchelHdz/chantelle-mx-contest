@@ -1,6 +1,6 @@
 import "server-only";
 
-import { getServerEnv } from "@/lib/config/env";
+import { createSupabaseAdmin } from "@/lib/supabase/admin";
 import { fingerprint } from "@/lib/security/crypto";
 
 type Limit = {
@@ -11,32 +11,16 @@ type Limit = {
 };
 
 export async function enforceRateLimit(limit: Limit): Promise<void> {
-  const env = getServerEnv();
-  const key = `chantelle:${limit.scope}:${fingerprint(limit.identifier)}`;
-
-  if (!env.RATE_LIMIT_REST_URL || !env.RATE_LIMIT_REST_TOKEN) {
-    if (env.NODE_ENV === "production") throw new Error("RATE_LIMIT_NOT_CONFIGURED");
-    return;
-  }
-
-  const response = await fetch(`${env.RATE_LIMIT_REST_URL}/pipeline`, {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${env.RATE_LIMIT_REST_TOKEN}`,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify([
-      ["INCR", key],
-      ["EXPIRE", key, limit.windowSeconds, "NX"],
-      ["TTL", key],
-    ]),
-    cache: "no-store",
+  const supabase = createSupabaseAdmin();
+  const { data, error } = await supabase.rpc("consume_rate_limit", {
+    p_scope: limit.scope,
+    p_identifier_fingerprint: fingerprint(limit.identifier),
+    p_max_requests: limit.maxRequests,
+    p_window_seconds: limit.windowSeconds,
   });
 
-  if (!response.ok) throw new Error("RATE_LIMIT_UNAVAILABLE");
-  const result = (await response.json()) as Array<{ result: number }>;
-
-  if ((result[0]?.result ?? limit.maxRequests + 1) > limit.maxRequests) {
+  if (error) throw new Error("RATE_LIMIT_UNAVAILABLE");
+  if (data !== true) {
     throw new Error("RATE_LIMITED");
   }
 }

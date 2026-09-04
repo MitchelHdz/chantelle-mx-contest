@@ -19,8 +19,8 @@ Clasificar cada valor por ambiente. Solo `NEXT_PUBLIC_*` puede entrar al bundle.
 3. Ejecutar migración primero con `--dry-run` y conservar respaldo.
 4. Verificar registro, duplicado, carga privada, folio, correo y Sheets.
 5. Probar 390, 768, 1280 y 1440 px, teclado y lector de pantalla básico.
-6. Confirmar GA4 en DebugView y ausencia de PII.
-7. Validar rate limit y respuesta bajo falla de Supabase, UploadThing y correo.
+6. Confirmar que no se cargan cookies ni analítica y que no aparecen datos personales.
+7. Validar el límite de solicitudes en Supabase y la respuesta bajo falla de Supabase, UploadThing y correo.
 8. Publicar, hacer smoke test y revisar logs sin imprimir payloads.
 
 ## Monitoreo
@@ -41,6 +41,12 @@ Alertas mínimas:
 - Sheets caído: el registro continúa en Supabase y se sincroniza después.
 - UploadThing caído: bloquear nuevas participaciones con un mensaje claro; no aceptar registros sin comprobante.
 - Posible fuga: pausar campaña, rotar secrets, preservar evidencia sin PII y seguir el proceso legal de incidente.
+
+## Límite de solicitudes
+
+No se usa Redis ni otro proveedor. La función privada `public.consume_rate_limit` escribe contadores por ventana en `private.rate_limit_buckets`; solo el servidor, usando la secret key de Supabase, puede invocarla. Los identificadores se guardan como huellas HMAC y los buckets vencidos se eliminan durante solicitudes posteriores.
+
+Si Supabase no responde, el registro se rechaza temporalmente con HTTP 503. Después de cualquier cambio de migración, comprobar en Preview que el tercer intento de una prueba con máximo dos solicitudes devuelve HTTP 429.
 
 ## Responsables por definir
 

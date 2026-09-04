@@ -5,7 +5,7 @@
 | Riesgo | Control actual | Trabajo previo a producción |
 |---|---|---|
 | Secreto expuesto al navegador | Módulos `server-only` y variables sin `NEXT_PUBLIC_` | Escaneo de bundle y secretos en CI |
-| Registro automatizado | Honeypot, rate limit distribuido y límites de archivo | Añadir protección anti-bot administrada si el abuso lo exige |
+| Registro automatizado | Honeypot, límite persistente en Supabase y límites de archivo | Añadir protección anti-bot administrada si el abuso lo exige |
 | Reutilización de carga | Token HMAC con vencimiento, intent en DB y `consumed_at` | Prueba concurrente e idempotencia transaccional |
 | Ticket duplicado | Huella HMAC y restricción única por campaña | Aprobar regla de negocio y manejo manual |
 | Exposición de comprobante | ACL privada, `attachment`, file key server-only | Verificar plan, URLs firmadas y permisos del panel |
@@ -32,7 +32,7 @@
 
 - La finalización usa una función RPC para crear la participación, generar el folio, escribir el outbox y consumir el intent de forma atómica. Falta probar carreras y reintentos contra los servicios reales.
 - Falta un proceso de limpieza para archivos cargados cuyo registro no terminó.
-- El adaptador de rate limiting asume una API compatible con comandos Redis REST. Debe probarse con el proveedor elegido.
+- El límite de solicitudes vive en Supabase y falla cerrado si la base no está disponible. Sus buckets contienen huellas HMAC, no IPs en claro, y se eliminan al vencer. La observación `rls_enabled_no_policy` para esa tabla privada es intencional: no hay roles de navegador con acceso.
 - Las páginas legales son marcadores y bloquean la salida a producción.
 - El formulario permite HEIC en el selector; se debe confirmar compatibilidad real de UploadThing y navegadores objetivo.
 

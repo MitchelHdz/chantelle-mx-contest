@@ -29,7 +29,7 @@ Criterio de salida: revisión visual aprobada en 390, 768, 1280 y 1440 px, con n
 
 ## Hito 2. Registro y comprobante
 
-Duración estimada: 2 días. Estado: Supabase dedicado y migraciones aplicadas; faltan credenciales de UploadThing y rate limiting para validar el recorrido E2E en Preview.
+Duración estimada: 2 días. Estado: Supabase dedicado y migraciones aplicadas, incluido el límite de solicitudes; faltan credenciales reales de UploadThing para validar el recorrido E2E en Preview.
 
 Entregables:
 

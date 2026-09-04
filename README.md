@@ -12,19 +12,18 @@ Boilerplate del micrositio de registro para la promoción Chantelle. Vive en una
 - Adaptadores opcionales para Google Sheets y correo de confirmación.
 - Sin cookies ni analítica de comportamiento; el aviso de privacidad debe reflejarlo al aprobarse.
 - SEO técnico, sitemap, robots, metadatos sociales y datos estructurados para explicar la promoción de forma clara.
-- Encabezados de seguridad, control de origen, honeypot y rate limiting distribuido.
+- Encabezados de seguridad, control de origen, honeypot y rate limiting persistente en Supabase.
 - Migración SQL inicial, pruebas unitarias y documentación de arquitectura, operación y seguridad.
 
 ## Estado real
 
-Es una base ejecutable, no una campaña lista para abrir al público. Antes de producción deben conectarse cuentas reales, aplicar la migración, configurar rate limiting, incorporar textos legales aprobados y completar el panel operativo. Consulta [MILESTONES.md](./MILESTONES.md).
+Es una base ejecutable, no una campaña lista para abrir al público. Antes de producción deben conectarse cuentas reales, aplicar las migraciones, incorporar textos legales aprobados y completar el panel operativo. Consulta [MILESTONES.md](./MILESTONES.md).
 
 ## Requisitos
 
 - Node.js 22 o superior.
 - Un proyecto Supabase dedicado.
 - Una app UploadThing con archivos privados habilitados.
-- Un servicio compatible con la API REST de Upstash para rate limiting.
 - Vercel para previews y producción.
 
 ## Arranque local
@@ -39,7 +38,7 @@ La interfaz puede compilar sin credenciales. Las rutas de registro responderán 
 
 En Vercel, importa este repositorio como un proyecto independiente y deja **Root Directory** en `.`. Usa Node.js 22. Configura las variables de [`.env.example`](./.env.example) por ambiente; en Preview, `NEXT_PUBLIC_APP_URL` debe resolver a la URL del deployment y en Production al dominio final. Así la validación de origen funciona en ambos ambientes.
 
-El archivo [`vercel.json`](./vercel.json) usa instalación reproducible con `npm ci` y el build estándar de Next.js. Antes de crear el deployment, configura la integración de Supabase, UploadThing y rate limiting: en producción las rutas de registro fallan cerradas cuando falta rate limiting.
+El archivo [`vercel.json`](./vercel.json) usa instalación reproducible con `npm ci` y el build estándar de Next.js. Antes de crear el deployment, configura Supabase y UploadThing. El límite de solicitudes usa una función y una tabla privadas del mismo proyecto Supabase; no requiere Redis ni variables adicionales en Vercel. Si Supabase no está disponible, las rutas de registro fallan cerradas.
 
 ## Supabase
 

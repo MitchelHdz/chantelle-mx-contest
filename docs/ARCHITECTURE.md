@@ -34,7 +34,7 @@ El archivo no atraviesa el servidor de la aplicación. El servidor solo firma la
 
 ## Límites de confianza
 
-- Navegador: no confiable. Nunca recibe `SUPABASE_SECRET_KEY`, secretos HMAC ni token de rate limiting.
+- Navegador: no confiable. Nunca recibe `SUPABASE_SECRET_KEY` ni secretos HMAC.
 - Next.js: valida formato, origen, frecuencia, vigencia e identidad del intent.
 - UploadThing: acepta un archivo solo con intent firmado. Su callback debe ser validado por el SDK.
 - Supabase: RLS forzada, sin grants a `anon` o `authenticated` para las tablas de campaña.
@@ -59,7 +59,7 @@ docs/                    decisiones, operación y seguridad
 
 - Node.js runtime para rutas con crypto, Supabase y UploadThing.
 - Server Components por defecto; el formulario es Client Component.
-- Sin estado en memoria para controles de producción.
+- Sin estado en memoria para controles de producción. El límite de solicitudes se persiste en el proyecto Supabase existente, sin Redis ni otra integración.
 - Vercel Preview para QA y Production solo después del checklist.
 - Render dinámico de páginas para emitir un nonce CSP distinto en cada solicitud. Los recursos estáticos siguen cacheados por Next.js y Vercel.
 - La página principal incluye datos estructurados JSON-LD. Las rutas legales pendientes se marcan `noindex` hasta recibir aprobación.

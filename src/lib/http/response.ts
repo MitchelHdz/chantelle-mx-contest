@@ -2,6 +2,10 @@ import { NextResponse } from "next/server";
 
 const publicMessages: Record<string, { status: number; message: string }> = {
   RATE_LIMITED: { status: 429, message: "Recibimos demasiados intentos. Espera unos minutos." },
+  RATE_LIMIT_UNAVAILABLE: {
+    status: 503,
+    message: "No podemos recibir registros por el momento. Inténtalo de nuevo más tarde.",
+  },
   DUPLICATE_TICKET: { status: 409, message: "Este ticket ya está registrado." },
   EXPIRED_UPLOAD_INTENT: { status: 410, message: "La sesión de carga venció. Vuelve a seleccionar la foto." },
   INVALID_UPLOAD_INTENT: { status: 400, message: "No pudimos validar la foto del ticket." },
