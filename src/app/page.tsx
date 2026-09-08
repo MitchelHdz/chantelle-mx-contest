@@ -11,7 +11,9 @@ export default function Home() {
         <a className="brand-lockup" href="#inicio" aria-label="Chantelle y El Palacio de Hierro, inicio">
           <Image className="brand-lockup__chantelle" src="/brand/chantelle.svg" alt="Chantelle" width={280} height={34} priority />
           <span aria-hidden="true">×</span>
-          <Image className="brand-lockup__palacio" src="/brand/el-palacio-de-hierro.png" alt="El Palacio de Hierro" width={240} height={240} priority />
+          <span className="brand-lockup__palacio-frame">
+            <Image className="brand-lockup__palacio" src="/brand/el-palacio-de-hierro.png" alt="El Palacio de Hierro" width={240} height={240} priority />
+          </span>
         </a>
       </header>
 
@@ -25,8 +27,8 @@ export default function Home() {
         </div>
         <div className="hero__image">
           <Image
-            src="/images/paris-editorial.jpg"
-            alt="Vista de París en blanco y negro"
+            src="/images/chantelle-night-editorial.jpg"
+            alt="Modelo Chantelle con lencería negra frente a un muro de madera"
             fill
             priority
             sizes="(max-width: 767px) 100vw, 50vw"
@@ -61,8 +63,8 @@ export default function Home() {
 
       <section className="editorial-close">
         <Image
-          src="/images/editorial-still-life.jpg"
-          alt="Detalle editorial de producto Chantelle"
+          src="/images/chantelle-gold-editorial.jpg"
+          alt="Detalle editorial de lencería Chantelle frente a un fondo dorado"
           fill
           sizes="100vw"
         />
