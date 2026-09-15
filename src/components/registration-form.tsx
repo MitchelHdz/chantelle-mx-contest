@@ -10,7 +10,6 @@ type FormStatus = "idle" | "preparing" | "uploading" | "submitting" | "success" 
 type ApiResult = {
   ok: boolean;
   uploadIntent?: string;
-  folio?: string;
   code?: string;
   message?: string;
 };
@@ -23,7 +22,6 @@ export function RegistrationForm() {
   const [status, setStatus] = useState<FormStatus>("idle");
   const [progress, setProgress] = useState(0);
   const [message, setMessage] = useState("");
-  const [folio, setFolio] = useState("");
   const [receipt, setReceipt] = useState<File | null>(null);
   const [receiptPreview, setReceiptPreview] = useState("");
   const [receiptError, setReceiptError] = useState("");
@@ -141,6 +139,7 @@ export function RegistrationForm() {
       ticketNumber: String(data.get("ticketNumber") ?? ""),
       purchaseDate: String(data.get("purchaseDate") ?? ""),
       consent: data.get("consent") === "on",
+      marketingOptIn: data.get("marketingOptIn") === "on",
       website: String(data.get("website") ?? ""),
     };
 
@@ -173,13 +172,12 @@ export function RegistrationForm() {
         body: JSON.stringify({ ...payload, uploadIntent: intent.uploadIntent }),
       });
       const result = (await response.json()) as ApiResult;
-      if (!response.ok || !result.folio) {
+      if (!response.ok) {
         const submissionError = new Error(result.message ?? "No pudimos completar el registro.");
         submissionError.name = result.code ?? "SUBMISSION_ERROR";
         throw submissionError;
       }
 
-      setFolio(result.folio);
       setStatus("success");
       formRef.current?.reset();
       updateReceipt(null);
@@ -195,8 +193,8 @@ export function RegistrationForm() {
   if (status === "success") {
     return (
       <section className="success-panel" aria-live="polite">
-        <h2>Tu folio es {folio}</h2>
-        <p>Guárdalo para cualquier consulta sobre tu participación.</p>
+        <h2>¡Felicidades! Tu registro está completo.</h2>
+        <p>Ahora toca esperar. Conserva tu ticket; nos estaremos poniendo en contacto contigo para compartirte los resultados.</p>
         <button type="button" className="text-button" onClick={() => setStatus("idle")}>
           Registrar otro ticket
         </button>
@@ -304,12 +302,17 @@ export function RegistrationForm() {
         </span>
       </label>
 
+      <label className="checkbox">
+        <input name="marketingOptIn" type="checkbox" defaultChecked={false} />
+        <span>Quiero recibir campañas, novedades y comunicaciones publicitarias de Chantelle y El Palacio de Hierro.</span>
+      </label>
+
       {isBusy ? (
         <div className="upload-status" aria-live="polite">
           <div className="upload-status__steps" aria-label="Estado de tu registro">
             <span className={status === "preparing" ? "is-active" : "is-complete"}>Preparar</span>
             <span className={status === "uploading" ? "is-active" : status === "submitting" ? "is-complete" : ""}>Subir foto</span>
-            <span className={status === "submitting" ? "is-active" : ""}>Generar folio</span>
+            <span className={status === "submitting" ? "is-active" : ""}>Confirmar registro</span>
           </div>
           {status === "uploading" ? (
             <div className="progress" role="progressbar" aria-label="Subiendo foto del ticket" aria-valuemin={0} aria-valuemax={100} aria-valuenow={progress}>
@@ -317,7 +320,7 @@ export function RegistrationForm() {
               <small>Subiendo foto: {progress}%</small>
             </div>
           ) : (
-            <p>{status === "preparing" ? "Revisando los datos de tu ticket." : "Estamos generando tu folio."}</p>
+            <p>{status === "preparing" ? "Revisando los datos de tu ticket." : "Estamos confirmando tu registro."}</p>
           )}
         </div>
       ) : null}
@@ -327,7 +330,7 @@ export function RegistrationForm() {
       <button className="button button--submit" type="submit" disabled={isBusy}>
         {status === "preparing" && "Preparando carga"}
         {status === "uploading" && "Subiendo ticket"}
-        {status === "submitting" && "Generando folio"}
+        {status === "submitting" && "Confirmando registro"}
         {!isBusy && "Registrar mi participación"}
       </button>
     </form>

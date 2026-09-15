@@ -22,6 +22,7 @@ export const participationSchema = z.object({
   }),
   uploadIntent: z.string().min(40).max(2048),
   consent: z.literal(true),
+  marketingOptIn: z.boolean().default(false),
   website: z.literal("").default(""),
 });
 

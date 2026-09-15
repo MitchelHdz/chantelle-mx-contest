@@ -20,6 +20,12 @@ describe("participationSchema", () => {
     const parsed = participationSchema.parse(validParticipation);
     expect(parsed.email).toBe("ana@example.com");
     expect(parsed.ticketNumber).toBe("TICKET-82394");
+    expect(parsed.marketingOptIn).toBe(false);
+  });
+
+  it("acepta el opt-in publicitario cuando se selecciona", () => {
+    const parsed = participationSchema.parse({ ...validParticipation, marketingOptIn: true });
+    expect(parsed.marketingOptIn).toBe(true);
   });
 
   it("rechaza tienda, consentimiento y ticket inválidos", () => {

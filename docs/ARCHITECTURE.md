@@ -17,7 +17,7 @@ Navegador ── 2. imagen directa ───► UploadThing privado
                                          │ callback verificado
                                          ▼
                                    Next.js /api/uploadthing
-                                         │ file key
+                                         │ clave, URL canónica, nombre único y hash
                                          ▼
                                    Supabase: upload_intents
    │
@@ -30,7 +30,7 @@ Next.js /api/participations ──────► Supabase: participations + out
 Confirmación
 ```
 
-El archivo no atraviesa el servidor de la aplicación. El servidor solo firma la intención, recibe el callback de UploadThing y guarda la clave privada del archivo.
+El archivo no atraviesa el servidor de la aplicación. El servidor solo firma la intención, recibe el callback de UploadThing y guarda la clave privada, URL canónica, nombre único y hash del archivo. La URL del comprobante privado solo se conserva para operación interna; no se devuelve al navegador.
 
 ## Límites de confianza
 

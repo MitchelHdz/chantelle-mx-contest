@@ -48,11 +48,23 @@ export async function createUploadIntent(ticketNumber: string, store: string) {
   return { intentId, ticketFingerprint, expiresAt: expiresAt.getTime() };
 }
 
-export async function attachReceiptToIntent(intentId: string, fileKey: string): Promise<void> {
+type ReceiptAsset = {
+  key: string;
+  url: string;
+  name: string;
+  hash: string;
+};
+
+export async function attachReceiptToIntent(intentId: string, asset: ReceiptAsset): Promise<void> {
   const supabase = createSupabaseAdmin();
   const { data, error } = await supabase
     .from("upload_intents")
-    .update({ uploadthing_file_key: fileKey })
+    .update({
+      uploadthing_file_key: asset.key,
+      uploadthing_file_url: asset.url,
+      uploadthing_file_name: asset.name,
+      uploadthing_file_hash: asset.hash,
+    })
     .eq("id", intentId)
     .is("consumed_at", null)
     .gt("expires_at", new Date().toISOString())
@@ -90,6 +102,7 @@ export async function finalizeParticipation(
       p_store_code: input.store,
       p_ticket_number: input.ticketNumber,
       p_purchase_date: input.purchaseDate,
+      p_marketing_opt_in: input.marketingOptIn,
       p_consented_at: new Date().toISOString(),
     })
     .single();

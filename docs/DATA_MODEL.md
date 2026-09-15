@@ -8,11 +8,11 @@ Configura estado y vigencia. La campaña usa el slug técnico `chantelle-te-llev
 
 ### `upload_intents`
 
-Guarda una intención temporal, huella del ticket, vencimiento y clave de UploadThing. No contiene la imagen. Un intent consumido no puede reutilizarse.
+Guarda una intención temporal, huella del ticket, vencimiento y metadatos del activo privado de UploadThing: clave, URL canónica, nombre único y hash. No contiene la imagen. Un intent consumido no puede reutilizarse.
 
 ### `participations`
 
-Contiene datos de contacto, ticket, fecha, tienda, clave privada del comprobante, estado y folio. Las huellas HMAC permiten comparar datos sin usarlos en consultas o logs.
+Contiene datos de contacto, ticket, fecha, tienda, consentimiento publicitario opcional, metadatos del comprobante privado (incluida su URL canónica), estado y folio interno. Las huellas HMAC permiten comparar datos sin usarlos en consultas o logs. La URL privada no se expone al navegador.
 
 La unicidad `(campaign_slug, ticket_fingerprint)` evita registrar el mismo ticket dos veces dentro de una campaña. Correo y teléfono no son únicos porque una persona puede tener más de una compra válida.
 

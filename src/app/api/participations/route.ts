@@ -24,9 +24,9 @@ export async function POST(request: NextRequest) {
     const input = participationSchema.parse(await request.json());
     const intent = verifyUploadIntentToken(input.uploadIntent);
 
-    const result = await finalizeParticipation(input, intent);
+    await finalizeParticipation(input, intent);
 
-    return NextResponse.json({ ok: true, folio: result.folio }, { status: 201 });
+    return NextResponse.json({ ok: true }, { status: 201 });
   } catch (error) {
     if (error instanceof ZodError) {
       return NextResponse.json(

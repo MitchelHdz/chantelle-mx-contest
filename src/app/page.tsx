@@ -43,7 +43,7 @@ export default function Home() {
         <ol>
           <li><strong>Completa tus datos</strong><p>Escribe los datos que usaste al hacer tu compra.</p></li>
           <li><strong>Sube tu ticket</strong><p>El número debe verse claro en la foto.</p></li>
-          <li><strong>Guarda tu folio</strong><p>Al terminar verás el número de tu participación.</p></li>
+          <li><strong>Espera los resultados</strong><p>Conserva tu ticket; nos pondremos en contacto contigo.</p></li>
         </ol>
       </section>
 
