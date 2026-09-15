@@ -193,8 +193,10 @@ h2 { font-size: clamp(2.6rem, 5vw, 4.8rem); }
 .progress small { color: var(--muted); }
 .form-error { color: var(--danger); font-weight: 700; }
 
-.success-panel { border-top: 3px solid var(--success); min-height: 24rem; padding: var(--space-7) 0; }
-.success-panel p { color: var(--muted); max-width: 32rem; }
+.success-panel { align-content: start; border-top: 3px solid var(--success); display: grid; gap: var(--space-5); min-height: 24rem; padding: var(--space-8) 0 var(--space-7); }
+.success-panel h2 { font-size: clamp(2.25rem, 6vw, 3.65rem); line-height: 1.06; max-width: 11ch; }
+.success-panel p { color: var(--muted); font-size: 1.05rem; line-height: 1.72; margin: 0; max-width: 30rem; }
+.success-panel .text-button { justify-self: start; margin-top: var(--space-2); }
 .text-button { background: transparent; border: 0; color: var(--accent-strong); cursor: pointer; font-weight: 750; padding: var(--space-2) 0; text-decoration: underline; text-underline-offset: 0.25em; }
 
 .editorial-close { align-items: flex-end; display: flex; margin-inline: auto; max-width: var(--measure); min-height: min(75svh, 48rem); padding: var(--space-7) var(--space-5); }

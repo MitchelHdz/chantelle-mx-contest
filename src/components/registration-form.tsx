@@ -193,8 +193,8 @@ export function RegistrationForm() {
   if (status === "success") {
     return (
       <section className="success-panel" aria-live="polite">
-        <h2>¡Felicidades! Tu registro está completo.</h2>
-        <p>Ahora toca esperar. Conserva tu ticket; nos estaremos poniendo en contacto contigo para compartirte los resultados.</p>
+        <h2>¡Listo! Ya recibimos tu registro.</h2>
+        <p>Guarda tu ticket. Te contactaremos cuando tengamos noticias sobre los resultados.</p>
         <button type="button" className="text-button" onClick={() => setStatus("idle")}>
           Registrar otro ticket
         </button>
