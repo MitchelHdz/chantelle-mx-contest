@@ -1,5 +1,5 @@
 export const campaign = {
-  slug: process.env.NEXT_PUBLIC_CAMPAIGN_SLUG ?? "chantelle-vive-paris",
+  slug: process.env.NEXT_PUBLIC_CAMPAIGN_SLUG ?? "chantelle-te-lleva-a-paris",
   name: "Chantelle te lleva a París",
   brand: "Chantelle",
   partner: "El Palacio de Hierro",
