@@ -73,8 +73,8 @@ export default function Home() {
 
       <section className="editorial-close">
         <Image
-          src="/images/editorial-still-life-v2.png"
-          alt="Bodegón editorial con textiles negros, joyería dorada y mesa de madera oscura"
+          src="/images/chantelle-gold-editorial.jpg"
+          alt="Modelo de la campaña Chantelle frente a un fondo dorado"
           fill
           sizes="(max-width: 1216px) 100vw, 1216px"
         />
