@@ -47,6 +47,16 @@ export default function Home() {
         </ol>
       </section>
 
+      <section className="paris-moment" aria-label="La experiencia en París">
+        <Image
+          src="/images/paris-haussmann-editorial-v2.png"
+          alt="Vista nocturna de París desde un departamento Haussmann con un balcón de hierro forjado"
+          fill
+          sizes="(max-width: 767px) 100vw, (max-width: 1216px) 100vw, 1216px"
+        />
+        <p>Una experiencia inspirada en París.</p>
+      </section>
+
       <section id="registro" className="registration-section">
         <div className="registration-section__intro">
           <h2>Registra tu compra</h2>
@@ -63,10 +73,10 @@ export default function Home() {
 
       <section className="editorial-close">
         <Image
-          src="/images/chantelle-gold-editorial.jpg"
-          alt="Detalle editorial de lencería Chantelle frente a un fondo dorado"
+          src="/images/editorial-still-life-v2.png"
+          alt="Bodegón editorial con textiles negros, joyería dorada y mesa de madera oscura"
           fill
-          sizes="100vw"
+          sizes="(max-width: 1216px) 100vw, 1216px"
         />
         <p>Celebrando 150 años</p>
       </section>

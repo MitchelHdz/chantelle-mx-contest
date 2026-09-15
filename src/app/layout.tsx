@@ -34,13 +34,13 @@ export const metadata: Metadata = {
     siteName: "Chantelle te lleva a París",
     title: "Chantelle te lleva a París | Chantelle x El Palacio de Hierro",
     description: "Registra tu compra Chantelle en El Palacio de Hierro y participa por una experiencia en París.",
-    images: [{ url: "/images/paris-editorial.jpg", width: 1122, height: 1402, alt: "Chantelle te lleva a París, promoción de Chantelle" }],
+    images: [{ url: "/images/paris-haussmann-editorial-v2.png", width: 1536, height: 1024, alt: "Chantelle te lleva a París, promoción de Chantelle" }],
   },
   twitter: {
     card: "summary_large_image",
     title: "Chantelle te lleva a París | Chantelle x El Palacio de Hierro",
     description: "Registra tu compra y participa por una experiencia en París.",
-    images: ["/images/paris-editorial.jpg"],
+    images: ["/images/paris-haussmann-editorial-v2.png"],
   },
   robots: { index: true, follow: true },
 };
