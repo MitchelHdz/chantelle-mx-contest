@@ -42,15 +42,15 @@ export default function Home() {
         </div>
         <ol>
           <li><strong>Completa tus datos</strong><p>Escribe los datos que usaste al hacer tu compra.</p></li>
-          <li><strong>Sube tu ticket</strong><p>El número debe verse claro en la foto.</p></li>
-          <li><strong>Espera los resultados</strong><p>Conserva tu ticket; nos pondremos en contacto contigo.</p></li>
+          <li><strong>Sube tu ticket</strong><p>Asegúrate de que tu ticket se vea claro en la foto.</p></li>
+          <li><strong>Espera los resultados</strong><p>Conserva tu ticket físico; nos pondremos en contacto únicamente con la persona ganadora.</p></li>
         </ol>
       </section>
 
       <section className="paris-moment" aria-label="La experiencia en París">
         <Image
-          src="/images/paris-haussmann-editorial-v2.png"
-          alt="Vista nocturna de París desde un departamento Haussmann con un balcón de hierro forjado"
+          src="/images/paris-alexandre-iii.jpg"
+          alt="Puente Alejandro III iluminado al atardecer en París"
           fill
           sizes="(max-width: 767px) 100vw, (max-width: 1216px) 100vw, 1216px"
         />

@@ -21,8 +21,8 @@ export async function POST(request: NextRequest) {
       windowSeconds: 15 * 60,
     });
 
-    const input = uploadIntentSchema.parse(await request.json());
-    const intent = await createUploadIntent(input.ticketNumber, input.store);
+    uploadIntentSchema.parse(await request.json());
+    const intent = await createUploadIntent();
 
     return NextResponse.json({
       ok: true,
@@ -32,7 +32,7 @@ export async function POST(request: NextRequest) {
   } catch (error) {
     if (error instanceof ZodError) {
       return NextResponse.json(
-        { ok: false, code: "VALIDATION_ERROR", message: "Revisa el ticket y la tienda." },
+        { ok: false, code: "VALIDATION_ERROR", message: "Revisa los datos enviados." },
         { status: 400 },
       );
     }

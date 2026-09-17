@@ -11,7 +11,6 @@ type SheetRow = {
   email: string;
   phone: string;
   store: string;
-  ticketNumber: string;
   purchaseDate: string;
   registeredAt: string;
 };

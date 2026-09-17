@@ -136,7 +136,6 @@ export function RegistrationForm() {
       email: String(data.get("email") ?? ""),
       phone: String(data.get("phone") ?? ""),
       store: String(data.get("store") ?? ""),
-      ticketNumber: String(data.get("ticketNumber") ?? ""),
       purchaseDate: String(data.get("purchaseDate") ?? ""),
       consent: data.get("consent") === "on",
       marketingOptIn: data.get("marketingOptIn") === "on",
@@ -151,8 +150,6 @@ export function RegistrationForm() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          ticketNumber: payload.ticketNumber,
-          store: payload.store,
           website: payload.website,
         }),
       });
@@ -193,8 +190,8 @@ export function RegistrationForm() {
   if (status === "success") {
     return (
       <section className="success-panel" aria-live="polite">
-        <h2>¡Listo! Ya recibimos tu registro.</h2>
-        <p>Guarda tu ticket. Te contactaremos cuando tengamos noticias sobre los resultados.</p>
+        <h2>¡Felicidades! Tu registro se ha completado con éxito.</h2>
+        <p>Conserva tu ticket físico de compra, ya que será indispensable para reclamar el premio. Nos pondremos en contacto únicamente con la persona ganadora al finalizar la promoción.</p>
         <button type="button" className="text-button" onClick={() => setStatus("idle")}>
           Registrar otro ticket
         </button>
@@ -228,12 +225,11 @@ export function RegistrationForm() {
           </select>
         </label>
 
-        <Field label="Número de ticket" name="ticketNumber" autoComplete="off" minLength={4} maxLength={40} />
         <Field label="Fecha de compra" name="purchaseDate" type="date" max={new Date().toISOString().slice(0, 10)} />
 
         <div className="field field--wide upload-field">
           <span id="receipt-label">Foto de tu ticket</span>
-          <small id="receipt-help">JPG, PNG o HEIC. Máximo 4 MB. El número debe verse claro.</small>
+          <small id="receipt-help">JPG, PNG o HEIC. Máximo 4 MB. Asegúrate de que el ticket se vea claro.</small>
           <input
             ref={receiptInputRef}
             className="upload-picker__input"

@@ -8,7 +8,6 @@ const validParticipation = {
   email: "ANA@EXAMPLE.COM",
   phone: "+52 55 1234 5678",
   store: "polanco",
-  ticketNumber: "TICKET-82394",
   purchaseDate: "2026-08-22",
   uploadIntent: "a".repeat(80),
   consent: true,
@@ -17,9 +16,9 @@ const validParticipation = {
 
 describe("participationSchema", () => {
   it("normaliza el correo y conserva un registro válido", () => {
-    const parsed = participationSchema.parse(validParticipation);
+    const parsed = participationSchema.parse({ ...validParticipation, ticketNumber: "NO-DEBE-GUARDARSE" });
     expect(parsed.email).toBe("ana@example.com");
-    expect(parsed.ticketNumber).toBe("TICKET-82394");
+    expect(parsed).not.toHaveProperty("ticketNumber");
     expect(parsed.marketingOptIn).toBe(false);
   });
 
@@ -28,12 +27,11 @@ describe("participationSchema", () => {
     expect(parsed.marketingOptIn).toBe(true);
   });
 
-  it("rechaza tienda, consentimiento y ticket inválidos", () => {
+  it("rechaza tienda y consentimiento inválidos", () => {
     const parsed = participationSchema.safeParse({
       ...validParticipation,
       store: "otra-tienda",
       consent: false,
-      ticketNumber: "<script>",
     });
     expect(parsed.success).toBe(false);
   });
@@ -48,10 +46,12 @@ describe("participationSchema", () => {
 });
 
 describe("uploadIntentSchema", () => {
+  it("no solicita datos del ticket antes de cargar su foto", () => {
+    expect(uploadIntentSchema.parse({ website: "" })).toEqual({ website: "" });
+  });
+
   it("rechaza el honeypot cuando un bot lo completa", () => {
     const parsed = uploadIntentSchema.safeParse({
-      ticketNumber: "82394",
-      store: "polanco",
       website: "https://spam.example",
     });
     expect(parsed.success).toBe(false);

@@ -20,10 +20,10 @@ La ruta `receipt` admite una imagen de hasta 4 MB, una sola por intent, con ACL 
 
 Flujo:
 
-1. Next.js crea el intent en Supabase y firma su ID y huella de ticket.
+1. Next.js crea el intent en Supabase y firma su ID temporal.
 2. El navegador solicita una URL prefirmada a UploadThing.
 3. UploadThing recibe el archivo directamente.
-4. El callback guarda únicamente `file.key` en Supabase.
+4. El callback guarda los metadatos privados del archivo y deriva la huella HMAC del ticket a partir de su hash.
 
 El plan contratado debe soportar archivos privados. Para revisar un ticket, el panel solicitará una URL firmada de corta duración. Nunca se guardará una URL pública en Sheets.
 

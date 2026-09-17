@@ -15,7 +15,7 @@ const structuredData = {
     step: [
       { "@type": "HowToStep", name: "Completa tus datos", text: "Escribe los datos que usaste al hacer tu compra." },
       { "@type": "HowToStep", name: "Sube tu ticket", text: "Comparte una foto clara de tu ticket." },
-      { "@type": "HowToStep", name: "Espera los resultados", text: "Conserva tu ticket; nos pondremos en contacto contigo." },
+      { "@type": "HowToStep", name: "Espera los resultados", text: "Conserva tu ticket físico; nos pondremos en contacto únicamente con la persona ganadora." },
     ],
   },
 };

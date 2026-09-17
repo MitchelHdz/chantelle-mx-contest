@@ -29,11 +29,11 @@ async function assertCampaignActive(): Promise<void> {
   }
 }
 
-export async function createUploadIntent(ticketNumber: string, store: string) {
+export async function createUploadIntent() {
   await assertCampaignActive();
   const supabase = createSupabaseAdmin();
   const intentId = randomUUID();
-  const ticketFingerprint = fingerprint(`${campaign.slug}:${store}:${ticketNumber}`);
+  const ticketFingerprint = fingerprint(intentId);
   const expiresAt = new Date(Date.now() + INTENT_TTL_MINUTES * 60_000);
 
   const { error } = await supabase.from("upload_intents").insert({
@@ -45,7 +45,7 @@ export async function createUploadIntent(ticketNumber: string, store: string) {
 
   if (error) throw error;
 
-  return { intentId, ticketFingerprint, expiresAt: expiresAt.getTime() };
+  return { intentId, expiresAt: expiresAt.getTime() };
 }
 
 type ReceiptAsset = {
@@ -57,9 +57,11 @@ type ReceiptAsset = {
 
 export async function attachReceiptToIntent(intentId: string, asset: ReceiptAsset): Promise<void> {
   const supabase = createSupabaseAdmin();
+  const ticketFingerprint = fingerprint(asset.hash);
   const { data, error } = await supabase
     .from("upload_intents")
     .update({
+      ticket_fingerprint: ticketFingerprint,
       uploadthing_file_key: asset.key,
       uploadthing_file_url: asset.url,
       uploadthing_file_name: asset.name,
@@ -77,22 +79,16 @@ export async function attachReceiptToIntent(intentId: string, asset: ReceiptAsse
 
 export async function finalizeParticipation(
   input: ParticipationInput,
-  verifiedIntent: { intentId: string; ticketFingerprint: string },
+  verifiedIntent: { intentId: string },
 ) {
   const supabase = createSupabaseAdmin();
-  const ticketFingerprint = fingerprint(`${campaign.slug}:${input.store}:${input.ticketNumber}`);
   const emailFingerprint = fingerprint(input.email);
   const phoneFingerprint = fingerprint(input.phone.replace(/\D/g, ""));
-
-  if (verifiedIntent.ticketFingerprint !== ticketFingerprint) {
-    throw new Error("INVALID_UPLOAD_INTENT");
-  }
 
   const { data, error } = await supabase
     .rpc("finalize_participation", {
       p_campaign_slug: campaign.slug,
       p_intent_id: verifiedIntent.intentId,
-      p_ticket_fingerprint: ticketFingerprint,
       p_first_name: input.firstName,
       p_last_name: input.lastName,
       p_email: input.email,
@@ -100,7 +96,6 @@ export async function finalizeParticipation(
       p_phone: input.phone,
       p_phone_fingerprint: phoneFingerprint,
       p_store_code: input.store,
-      p_ticket_number: input.ticketNumber,
       p_purchase_date: input.purchaseDate,
       p_marketing_opt_in: input.marketingOptIn,
       p_consented_at: new Date().toISOString(),

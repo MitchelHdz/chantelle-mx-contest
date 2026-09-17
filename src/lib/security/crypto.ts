@@ -6,7 +6,6 @@ import { getServerEnv } from "@/lib/config/env";
 
 type UploadIntentPayload = {
   intentId: string;
-  ticketFingerprint: string;
   expiresAt: number;
 };
 

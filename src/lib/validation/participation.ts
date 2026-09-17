@@ -5,8 +5,6 @@ import { campaign } from "@/lib/config/campaign";
 const storeCodes = campaign.allowedStores.map((store) => store.value) as [string, ...string[]];
 
 export const uploadIntentSchema = z.object({
-  ticketNumber: z.string().trim().min(4).max(40).regex(/^[\p{L}\p{N}\-_/ ]+$/u),
-  store: z.enum(storeCodes),
   website: z.literal("").default(""),
 });
 
@@ -16,7 +14,6 @@ export const participationSchema = z.object({
   email: z.email().max(254).transform((value) => value.toLowerCase()),
   phone: z.string().trim().min(10).max(20).regex(/^\+?[0-9 ()-]+$/),
   store: z.enum(storeCodes),
-  ticketNumber: z.string().trim().min(4).max(40).regex(/^[\p{L}\p{N}\-_/ ]+$/u),
   purchaseDate: z.iso.date().refine((value) => value <= new Date().toISOString().slice(0, 10), {
     message: "La fecha de compra no puede estar en el futuro.",
   }),
