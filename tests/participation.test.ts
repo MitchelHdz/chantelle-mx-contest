@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 
+import { campaign } from "@/lib/config/campaign";
 import { participationSchema, uploadIntentSchema } from "@/lib/validation/participation";
 
 const validParticipation = {
@@ -25,6 +26,13 @@ describe("participationSchema", () => {
   it("acepta el opt-in publicitario cuando se selecciona", () => {
     const parsed = participationSchema.parse({ ...validParticipation, marketingOptIn: true });
     expect(parsed.marketingOptIn).toBe(true);
+  });
+
+  it("acepta las 16 tiendas nacionales de El Palacio de Hierro", () => {
+    expect(campaign.allowedStores).toHaveLength(16);
+    for (const store of campaign.allowedStores) {
+      expect(participationSchema.safeParse({ ...validParticipation, store: store.value }).success).toBe(true);
+    }
   });
 
   it("rechaza tienda y consentimiento inválidos", () => {
