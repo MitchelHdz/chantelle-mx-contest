@@ -6,7 +6,7 @@ import { getServerEnv } from "@/lib/config/env";
 import { processGoogleSheetsOutbox } from "@/lib/integrations/google-sheets-outbox";
 
 export const runtime = "nodejs";
-export const maxDuration = 30;
+export const maxDuration = 60;
 
 function secretsMatch(received: string, expected: string): boolean {
   const receivedBuffer = Buffer.from(received);

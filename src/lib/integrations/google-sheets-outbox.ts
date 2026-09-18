@@ -9,6 +9,7 @@ import { createSupabaseAdmin } from "@/lib/supabase/admin";
 
 const MAX_ATTEMPTS = 20;
 const MAX_BATCH_SIZE = 25;
+const MAX_CONCURRENCY = 5;
 
 type OutboxRecord = {
   id: number;
@@ -69,41 +70,49 @@ export async function processGoogleSheetsOutbox(
   let processed = 0;
   let failed = 0;
 
-  for (const record of outboxRecords) {
-    const attempt = record.sheets_attempts + 1;
-    try {
-      const participation = participationById.get(record.participation_id);
-      if (!participation?.folio) throw new Error("PARTICIPATION_NOT_FOUND");
+  for (let index = 0; index < outboxRecords.length; index += MAX_CONCURRENCY) {
+    const chunk = outboxRecords.slice(index, index + MAX_CONCURRENCY);
+    const outcomes = await Promise.all(
+      chunk.map(async (record) => {
+        const attempt = record.sheets_attempts + 1;
+        try {
+          const participation = participationById.get(record.participation_id);
+          if (!participation?.folio) throw new Error("PARTICIPATION_NOT_FOUND");
 
-      const syncedAt = new Date().toISOString();
-      await appendOperationalRow(buildSheetRow(participation, syncedAt));
+          const syncedAt = new Date().toISOString();
+          await appendOperationalRow(buildSheetRow(participation, syncedAt));
 
-      const { error } = await supabase
-        .from("integration_outbox")
-        .update({
-          sheets_attempts: attempt,
-          sheets_processed_at: syncedAt,
-          sheets_last_error: null,
-        })
-        .eq("id", record.id)
-        .is("sheets_processed_at", null);
+          const { error } = await supabase
+            .from("integration_outbox")
+            .update({
+              sheets_attempts: attempt,
+              sheets_processed_at: syncedAt,
+              sheets_last_error: null,
+            })
+            .eq("id", record.id)
+            .is("sheets_processed_at", null);
 
-      if (error) throw error;
-      processed += 1;
-    } catch (error) {
-      failed += 1;
-      const { error: updateError } = await supabase
-        .from("integration_outbox")
-        .update({
-          sheets_attempts: attempt,
-          sheets_available_at: retryAt(attempt),
-          sheets_last_error: errorMessage(error),
-        })
-        .eq("id", record.id)
-        .is("sheets_processed_at", null);
+          if (error) throw error;
+          return true;
+        } catch (error) {
+          const { error: updateError } = await supabase
+            .from("integration_outbox")
+            .update({
+              sheets_attempts: attempt,
+              sheets_available_at: retryAt(attempt),
+              sheets_last_error: errorMessage(error),
+            })
+            .eq("id", record.id)
+            .is("sheets_processed_at", null);
 
-      if (updateError) console.error("No se pudo registrar el reintento de Google Sheets", updateError);
-    }
+          if (updateError) console.error("No se pudo registrar el reintento de Google Sheets", updateError);
+          return false;
+        }
+      }),
+    );
+
+    processed += outcomes.filter(Boolean).length;
+    failed += outcomes.filter((outcome) => !outcome).length;
   }
 
   return { selected: outboxRecords.length, processed, failed };

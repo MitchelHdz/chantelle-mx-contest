@@ -4,6 +4,8 @@ import { createHmac } from "node:crypto";
 
 import { getServerEnv } from "@/lib/config/env";
 
+const WEBHOOK_TIMEOUT_MS = 15_000;
+
 export type SheetRow = {
   folio: string;
   firstName: string;
@@ -33,6 +35,7 @@ export async function appendOperationalRow(row: SheetRow): Promise<void> {
     },
     body: JSON.stringify({ payload, signature }),
     cache: "no-store",
+    signal: AbortSignal.timeout(WEBHOOK_TIMEOUT_MS),
   });
 
   if (!response.ok) throw new Error("SHEETS_SYNC_FAILED");
