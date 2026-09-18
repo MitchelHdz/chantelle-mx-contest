@@ -13,6 +13,7 @@ const serverEnvSchema = z.object({
   UPLOAD_INTENT_SECRET: z.string().min(32),
   GOOGLE_SHEETS_WEBHOOK_URL: z.url().optional(),
   GOOGLE_SHEETS_WEBHOOK_SECRET: z.string().min(16).optional(),
+  CRON_SECRET: z.string().min(32).optional(),
   RESEND_API_KEY: z.string().min(8).optional(),
   CONFIRMATION_FROM_EMAIL: z.email().optional(),
 });

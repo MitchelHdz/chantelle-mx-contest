@@ -29,15 +29,15 @@ El plan contratado debe soportar archivos privados. Para revisar un ticket, el p
 
 ## Google Sheets
 
-Sheets es una vista operativa, no la fuente oficial. El worker del outbox envía filas con un webhook firmado. El script receptor debe:
+Sheets es una vista operativa, no la fuente oficial. El worker del outbox envía filas con un webhook firmado. El receptor:
 
-- validar `X-Chantelle-Signature` con comparación de tiempo constante;
-- usar `participation_id` o folio como clave de upsert;
-- proteger la hoja y limitar editores;
-- no incluir file keys ni enlaces permanentes;
-- registrar la última sincronización y devolver errores no 2xx.
+- valida una firma HMAC incluida en el cuerpo con comparación de tiempo constante;
+- usa el folio como clave de upsert;
+- conserva `Revisión` y `Comentarios` cuando actualiza datos automáticos;
+- no incluye file keys ni enlaces permanentes;
+- registra la última sincronización y devuelve una respuesta JSON verificable.
 
-El código inicial incluye el adaptador, pero el worker y Apps Script se completan en el hito 3.
+Cada registro intenta procesar el outbox después de responder al navegador. El cron diario de Vercel procesa pendientes como respaldo y aplica backoff exponencial hasta 20 intentos. La operación y el contrato de columnas se documentan en `docs/GOOGLE-SHEETS-OPERATIONS.md`.
 
 ## Correo
 

@@ -1,8 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
+import { after } from "next/server";
 import { ZodError } from "zod";
 
 import { finalizeParticipation } from "@/lib/data/participations";
 import { apiError } from "@/lib/http/response";
+import { processGoogleSheetsOutbox } from "@/lib/integrations/google-sheets-outbox";
 import { verifyUploadIntentToken } from "@/lib/security/crypto";
 import { enforceRateLimit } from "@/lib/security/rate-limit";
 import { assertJsonRequest, assertSameOrigin, getClientAddress } from "@/lib/security/request";
@@ -25,6 +27,14 @@ export async function POST(request: NextRequest) {
     const intent = verifyUploadIntentToken(input.uploadIntent);
 
     await finalizeParticipation(input, intent);
+
+    after(async () => {
+      try {
+        await processGoogleSheetsOutbox({ limit: 5 });
+      } catch (error) {
+        console.error("No se pudo sincronizar Google Sheets después del registro", error);
+      }
+    });
 
     return NextResponse.json({ ok: true }, { status: 201 });
   } catch (error) {
