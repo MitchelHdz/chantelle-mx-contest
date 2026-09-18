@@ -40,6 +40,9 @@ export async function appendOperationalRow(row: SheetRow): Promise<void> {
 
   if (!response.ok) throw new Error("SHEETS_SYNC_FAILED");
 
-  const result = (await response.json().catch(() => null)) as { ok?: boolean } | null;
-  if (!result?.ok) throw new Error("SHEETS_SYNC_REJECTED");
+  const result = (await response.json().catch(() => null)) as { ok?: boolean; error?: string } | null;
+  if (!result?.ok) {
+    const reason = result?.error?.slice(0, 200) || "UNKNOWN";
+    throw new Error(`SHEETS_SYNC_REJECTED:${reason}`);
+  }
 }

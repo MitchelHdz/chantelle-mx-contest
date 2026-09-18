@@ -25,7 +25,8 @@ function doPost(event) {
     return jsonResponse({ ok: true });
   } catch (error) {
     console.error(error);
-    return jsonResponse({ ok: false, error: "INVALID_REQUEST" });
+    const message = String(error && error.message ? error.message : error || "INVALID_REQUEST");
+    return jsonResponse({ ok: false, error: message.slice(0, 200) });
   }
 }
 
@@ -62,9 +63,6 @@ function upsertParticipation(payload) {
   ]];
 
   sheet.getRange(targetRow, 1, 1, values[0].length).setValues(values);
-  sheet.getRange(targetRow, 2).setNumberFormat("dd/mm/yyyy hh:mm");
-  sheet.getRange(targetRow, 8).setNumberFormat("dd/mm/yyyy");
-  sheet.getRange(targetRow, 13).setNumberFormat("dd/mm/yyyy hh:mm");
 }
 
 function validatePayload(payload) {
