@@ -25,7 +25,7 @@ Flujo:
 3. UploadThing recibe el archivo directamente.
 4. El callback guarda los metadatos privados del archivo y deriva la huella HMAC del ticket a partir de su hash.
 
-El plan contratado debe soportar archivos privados. Para revisar un ticket, el panel solicitará una URL firmada de corta duración. Nunca se guardará una URL pública en Sheets.
+El plan contratado debe soportar archivos privados. Para revisar un ticket desde Sheets, la aplicación valida un enlace firmado por participación, genera una URL de UploadThing con vigencia de cinco minutos y sirve la imagen en modo privado. Nunca se guarda una URL pública ni la URL temporal de UploadThing en Sheets.
 
 ## Google Sheets
 
@@ -34,7 +34,7 @@ Sheets es una vista operativa, no la fuente oficial. El worker del outbox envía
 - valida una firma HMAC incluida en el cuerpo con comparación de tiempo constante;
 - usa el folio como clave de upsert;
 - conserva `Revisión` y `Comentarios` cuando actualiza datos automáticos;
-- no incluye file keys ni enlaces permanentes;
+- incluye un enlace de auditoría firmado que no revela el file key y genera acceso temporal al abrirse;
 - registra la última sincronización y devuelve una respuesta JSON verificable.
 
 Cada registro intenta procesar el outbox después de responder al navegador. El cron diario de Vercel procesa pendientes como respaldo y aplica backoff exponencial hasta 20 intentos. La operación y el contrato de columnas se documentan en `docs/GOOGLE-SHEETS-OPERATIONS.md`.

@@ -13,6 +13,7 @@ export type ParticipationForSheet = {
   status: string;
   marketing_opt_in: boolean;
   created_at: string;
+  receipt_file_key: string;
 };
 
 function storeLabel(storeCode: string): string {
@@ -31,7 +32,11 @@ function participationStatusLabel(status: string): string {
   return labels[status] ?? status;
 }
 
-export function buildSheetRow(participation: ParticipationForSheet, syncedAt: string): SheetRow {
+export function buildSheetRow(
+  participation: ParticipationForSheet,
+  syncedAt: string,
+  receiptAuditUrl: string,
+): SheetRow {
   return {
     folio: participation.folio,
     registeredAt: participation.created_at,
@@ -44,5 +49,6 @@ export function buildSheetRow(participation: ParticipationForSheet, syncedAt: st
     participationStatus: participationStatusLabel(participation.status),
     marketingOptIn: participation.marketing_opt_in,
     lastSyncedAt: syncedAt,
+    receiptAuditUrl,
   };
 }

@@ -34,6 +34,10 @@ function upsertParticipation(payload) {
   const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(PARTICIPATIONS_SHEET);
   if (!sheet) throw new Error("SHEET_NOT_FOUND");
 
+  if (sheet.getRange(1, 14).getDisplayValue() !== "Foto del ticket") {
+    sheet.getRange(1, 14).setValue("Foto del ticket");
+  }
+
   const lastRow = sheet.getLastRow();
   let targetRow = lastRow + 1;
   if (lastRow >= 2) {
@@ -63,6 +67,14 @@ function upsertParticipation(payload) {
   ]];
 
   sheet.getRange(targetRow, 1, 1, values[0].length).setValues(values);
+
+  if (payload.receiptAuditUrl) {
+    const ticketLink = SpreadsheetApp.newRichTextValue()
+      .setText("Abrir foto")
+      .setLinkUrl(String(payload.receiptAuditUrl))
+      .build();
+    sheet.getRange(targetRow, 14).setRichTextValue(ticketLink);
+  }
 }
 
 function validatePayload(payload) {

@@ -5,6 +5,8 @@ import {
   buildSheetRow,
   type ParticipationForSheet,
 } from "@/lib/integrations/google-sheets-row";
+import { getServerEnv } from "@/lib/config/env";
+import { createTicketAuditUrl } from "@/lib/security/ticket-audit";
 import { createSupabaseAdmin } from "@/lib/supabase/admin";
 
 const MAX_ATTEMPTS = 20;
@@ -58,7 +60,7 @@ export async function processGoogleSheetsOutbox(
   const { data: participations, error: participationsError } = await supabase
     .from("participations")
     .select(
-      "id, folio, first_name, last_name, email, phone, store_code, purchase_date, status, marketing_opt_in, created_at",
+      "id, folio, first_name, last_name, email, phone, store_code, purchase_date, status, marketing_opt_in, created_at, receipt_file_key",
     )
     .in("id", participationIds);
 
@@ -69,6 +71,7 @@ export async function processGoogleSheetsOutbox(
 
   let processed = 0;
   let failed = 0;
+  const env = getServerEnv();
 
   for (let index = 0; index < outboxRecords.length; index += MAX_CONCURRENCY) {
     const chunk = outboxRecords.slice(index, index + MAX_CONCURRENCY);
@@ -80,7 +83,11 @@ export async function processGoogleSheetsOutbox(
           if (!participation?.folio) throw new Error("PARTICIPATION_NOT_FOUND");
 
           const syncedAt = new Date().toISOString();
-          await appendOperationalRow(buildSheetRow(participation, syncedAt));
+          const receiptAuditUrl = createTicketAuditUrl(
+            { participationId: participation.id, fileKey: participation.receipt_file_key },
+            { appUrl: env.NEXT_PUBLIC_APP_URL, secret: env.UPLOAD_INTENT_SECRET },
+          );
+          await appendOperationalRow(buildSheetRow(participation, syncedAt, receiptAuditUrl));
 
           const { error } = await supabase
             .from("integration_outbox")

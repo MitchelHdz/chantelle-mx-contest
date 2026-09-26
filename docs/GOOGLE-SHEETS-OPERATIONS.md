@@ -2,7 +2,7 @@
 
 ## Objetivo
 
-Mantener una vista editable y fácil de exportar de las participaciones, sin convertir Google Sheets en la fuente oficial ni exponer la fotografía privada del ticket.
+Mantener una vista editable y fácil de exportar de las participaciones, sin convertir Google Sheets en la fuente oficial. La hoja incluye un acceso seguro a cada fotografía privada para revisión operativa.
 
 ## Flujo operativo
 
@@ -14,13 +14,15 @@ Mantener una vista editable y fácil de exportar de las participaciones, sin con
 
 ## Responsabilidades de la hoja
 
-- Automáticas: folio, fechas, datos de contacto, tienda, estado, consentimiento y última sincronización.
+- Automáticas: folio, fechas, datos de contacto, tienda, estado, consentimiento, última sincronización y enlace seguro a la foto del ticket.
 - Manuales: `Revisión` y `Comentarios`.
-- Excluidas: foto del ticket, URL del archivo, claves internas y huellas de datos.
+- Excluidas: claves internas, URL directa del proveedor y huellas de datos.
 
 ## Seguridad y confiabilidad
 
 - Supabase permanece como fuente oficial.
+- `Foto del ticket` contiene un enlace firmado por participación. Al abrirlo, la aplicación valida el enlace y genera acceso temporal al archivo privado.
+- Cualquier persona con acceso al enlace puede ver esa foto; la hoja debe compartirse únicamente con el equipo autorizado.
 - El webhook usa un secreto distinto al resto de las credenciales.
 - Los eventos tienen estado independiente para Google Sheets, hasta 20 intentos y backoff exponencial.
 - El job diario funciona como respaldo; el registro público no falla si Sheets no está disponible.
@@ -28,7 +30,7 @@ Mantener una vista editable y fácil de exportar de las participaciones, sin con
 
 ## Operación
 
-- Para revisar: filtrar por tienda, fecha o estado y completar `Revisión`/`Comentarios`.
+- Para revisar: hacer clic en `Abrir foto`, validar el ticket y completar `Revisión`/`Comentarios`.
 - Para exportar: `Archivo > Descargar > Valores separados por comas (.csv)`.
 - Para diagnosticar: consultar `sheets_attempts`, `sheets_last_error` y `sheets_processed_at` en `integration_outbox`.
 - Si cambia la estructura de columnas, actualizar juntos el libro y `integrations/google-apps-script/Code.gs`.

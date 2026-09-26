@@ -18,6 +18,7 @@ export type SheetRow = {
   participationStatus: string;
   marketingOptIn: boolean;
   lastSyncedAt: string;
+  receiptAuditUrl: string;
 };
 
 export async function appendOperationalRow(row: SheetRow): Promise<void> {
