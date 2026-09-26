@@ -11,7 +11,9 @@ import { createSupabaseAdmin } from "@/lib/supabase/admin";
 
 const MAX_ATTEMPTS = 20;
 const MAX_BATCH_SIZE = 25;
-const MAX_CONCURRENCY = 5;
+// Apps Script serializes writes with a document lock. Sending one webhook at a
+// time avoids lock contention and keeps the daily recovery job deterministic.
+const MAX_CONCURRENCY = 1;
 
 type OutboxRecord = {
   id: number;
