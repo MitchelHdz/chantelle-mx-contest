@@ -4,7 +4,10 @@ import { createHmac } from "node:crypto";
 
 import { getServerEnv } from "@/lib/config/env";
 
-const WEBHOOK_TIMEOUT_MS = 15_000;
+// Apps Script can have occasional cold starts or delayed spreadsheet writes.
+// Keep this below the 60-second cron limit while allowing one serialized write
+// to finish instead of creating an unnecessary retry.
+const WEBHOOK_TIMEOUT_MS = 30_000;
 
 export type SheetRow = {
   folio: string;
