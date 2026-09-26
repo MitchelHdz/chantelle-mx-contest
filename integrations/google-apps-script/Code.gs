@@ -34,8 +34,11 @@ function upsertParticipation(payload) {
   const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(PARTICIPATIONS_SHEET);
   if (!sheet) throw new Error("SHEET_NOT_FOUND");
 
-  if (sheet.getRange(1, 14).getDisplayValue() !== "Foto del ticket") {
-    sheet.getRange(1, 14).setValue("Foto del ticket");
+  const ticketHeader = sheet.getRange(1, 14);
+  if (ticketHeader.getDisplayValue() !== "Foto del ticket") {
+    ticketHeader.setValue("Foto del ticket");
+    sheet.getRange(1, 13).copyTo(ticketHeader, SpreadsheetApp.CopyPasteType.PASTE_FORMAT, false);
+    sheet.setColumnWidth(14, 180);
   }
 
   const lastRow = sheet.getLastRow();

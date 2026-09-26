@@ -57,7 +57,7 @@ participations.getRange("K2:K1000").conditionalFormats.add("containsText", {
 participations.freezePanes.freezeRows(1);
 participations.getRange("A1:N1").format.rowHeightPx = 42;
 
-const widths = [130, 145, 120, 150, 210, 125, 175, 125, 130, 155, 110, 260, 145, 125];
+const widths = [130, 145, 120, 150, 210, 125, 175, 125, 130, 155, 110, 260, 145, 180];
 widths.forEach((width, index) => {
   participations.getRangeByIndexes(0, index, 1000, 1).format.columnWidthPx = width;
 });
