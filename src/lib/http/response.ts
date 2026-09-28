@@ -6,7 +6,10 @@ const publicMessages: Record<string, { status: number; message: string }> = {
     status: 503,
     message: "No podemos recibir registros por el momento. Inténtalo de nuevo más tarde.",
   },
-  DUPLICATE_TICKET: { status: 409, message: "Este ticket ya está registrado." },
+  DUPLICATE_TICKET: {
+    status: 409,
+    message: "Esta foto de ticket ya fue registrada. Puedes usar el mismo correo con otro ticket.",
+  },
   EXPIRED_UPLOAD_INTENT: { status: 410, message: "La sesión de carga venció. Vuelve a seleccionar la foto." },
   INVALID_UPLOAD_INTENT: { status: 400, message: "No pudimos validar la foto del ticket." },
   UPLOAD_NOT_READY: { status: 409, message: "La foto todavía se está procesando." },
