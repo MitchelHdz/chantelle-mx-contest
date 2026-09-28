@@ -192,6 +192,7 @@ export function RegistrationForm() {
       <section className="success-panel" aria-live="polite">
         <h2>¡Felicidades! Tu registro se ha completado con éxito.</h2>
         <p>Conserva tu ticket físico de compra, ya que será indispensable para reclamar el premio. Nos pondremos en contacto únicamente con la persona ganadora al finalizar la promoción.</p>
+        <p>El sorteo tendrá lugar el 23 de noviembre.</p>
         <button type="button" className="text-button" onClick={() => setStatus("idle")}>
           Registrar otro ticket
         </button>

@@ -63,7 +63,7 @@ export default function Home() {
           <p>Ten a la mano tu ticket. Completar el formulario toma pocos minutos.</p>
           <div className="privacy-note">
             <strong>Tu información se resguarda.</strong>
-            <p>La foto del ticket es privada y tus datos se usan sólo para esta promoción.</p>
+            <p>La foto del ticket es privada.</p>
           </div>
         </div>
         <div className="registration-section__form">
