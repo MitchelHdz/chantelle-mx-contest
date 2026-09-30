@@ -19,7 +19,7 @@ Clasificar cada valor por ambiente. Solo `NEXT_PUBLIC_*` puede entrar al bundle.
 3. Ejecutar migración primero con `--dry-run` y conservar respaldo.
 4. Verificar registro, duplicado, carga privada, folio, correo y Sheets.
 5. Probar 390, 768, 1280 y 1440 px, teclado y lector de pantalla básico.
-6. Confirmar que no se cargan cookies ni analítica y que no aparecen datos personales.
+6. Confirmar que Meta Pixel y GTM cargan con los IDs del ambiente, que dejan de cargar después de desactivar la medición en `/privacidad`, que no duplican PageView y que no se envían datos personales. Obtener aprobación del aviso de privacidad actualizado.
 7. Validar el límite de solicitudes en Supabase y la respuesta bajo falla de Supabase, UploadThing y correo.
 8. Publicar, hacer smoke test y revisar logs sin imprimir payloads.
 

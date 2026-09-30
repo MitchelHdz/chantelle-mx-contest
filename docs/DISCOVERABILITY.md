@@ -2,7 +2,7 @@
 
 ## Alcance
 
-La página principal está preparada para que buscadores y asistentes puedan identificar claramente la promoción, las marcas participantes y los pasos para registrarse. No se configura publicidad, analítica ni rastreo de comportamiento.
+La página principal está preparada para que buscadores y asistentes puedan identificar claramente la promoción, las marcas participantes y los pasos para registrarse. Meta Pixel y Google Tag Manager son opcionales y cargan al navegar cuando sus IDs están configurados.
 
 ## Implementación
 

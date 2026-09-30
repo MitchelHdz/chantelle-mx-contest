@@ -10,7 +10,7 @@ Boilerplate del micrositio de registro para la promoción Chantelle. Vive en una
 - Supabase como fuente de verdad, tablas con RLS forzada y sin acceso directo desde el navegador.
 - Folio único, detección de ticket duplicado y outbox para sincronizaciones.
 - Adaptadores opcionales para Google Sheets y correo de confirmación.
-- Sin cookies ni analítica de comportamiento; el aviso de privacidad debe reflejarlo al aprobarse.
+- Meta Pixel y Google Tag Manager opcionales, configurados desde Vercel y descritos en la página de privacidad.
 - SEO técnico, sitemap, robots, metadatos sociales y datos estructurados para explicar la promoción de forma clara.
 - Encabezados de seguridad, control de origen, honeypot y rate limiting persistente en Supabase.
 - Migración SQL inicial, pruebas unitarias y documentación de arquitectura, operación y seguridad.
@@ -37,6 +37,8 @@ npm run dev
 La interfaz puede compilar sin credenciales. Las rutas de registro responderán con error hasta completar `.env.local` y aplicar la migración.
 
 En Vercel, importa este repositorio como un proyecto independiente y deja **Root Directory** en `.`. Usa Node.js 22. Configura las variables de [`.env.example`](./.env.example) por ambiente; en Preview, `NEXT_PUBLIC_APP_URL` debe resolver a la URL del deployment y en Production al dominio final. Así la validación de origen funciona en ambos ambientes.
+
+Para activar tracking, configura `META_PIXEL_ID=4495892657318698` y `GTM_CONTAINER_ID=GTM-MCZCMB79` en las variables de entorno de Vercel para el ambiente deseado y vuelve a desplegar. Sin IDs, no se cargan scripts. Con IDs, ambos cargan al navegar, salvo que la persona haya desactivado la medición desde `/privacidad`. El aviso de privacidad debe ser aprobado antes de publicar. No se envían datos personales del formulario desde esta integración. El contenedor GTM debe configurarse y publicarse por separado; evita instalar el mismo Meta Pixel también desde GTM para no duplicar PageView. Meta CAPI requiere las instrucciones y credenciales de la opción 1, que no forman parte de este cambio.
 
 El archivo [`vercel.json`](./vercel.json) usa instalación reproducible con `npm ci` y el build estándar de Next.js. Antes de crear el deployment, configura Supabase y UploadThing. El límite de solicitudes usa una función y una tabla privadas del mismo proyecto Supabase; no requiere Redis ni variables adicionales en Vercel. Si Supabase no está disponible, las rutas de registro fallan cerradas.
 

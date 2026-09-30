@@ -22,7 +22,7 @@
 - Usar proyectos separados para preview y producción.
 - Rotar `SUPABASE_SECRET_KEY`, `UPLOADTHING_TOKEN` y secretos HMAC por incidente o cambio de proveedor.
 - No registrar payloads completos. Los errores públicos usan códigos y mensajes controlados.
-- El sitio no incorpora cookies ni analítica de comportamiento. El aviso de privacidad aprobado debe conservar esta declaración y describir el tratamiento del registro.
+- Meta Pixel y GTM cargan al navegar si sus IDs están configurados, salvo oposición guardada en este navegador. El aviso de privacidad aprobado debe describir estas herramientas, sus finalidades y el tratamiento del registro.
 - No aceptar MIME o extensión como prueba suficiente. Antes de producción se debe inspeccionar firma mágica y recomprimir imágenes en un proceso aislado.
 - El panel administrativo requiere MFA, sesión corta, roles y auditoría.
 - Toda exportación debe expirar y quedar limitada a personal autorizado.

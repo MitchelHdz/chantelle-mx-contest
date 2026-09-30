@@ -212,6 +212,9 @@ footer nav { display: flex; gap: var(--space-5); }
 .legal-page .eyebrow { margin-top: var(--space-9); }
 .legal-page h1 { font-size: clamp(3.2rem, 9vw, 7rem); }
 .legal-page p:not(.eyebrow) { color: var(--muted); font-size: 1.1rem; margin: var(--space-6) 0; max-width: 42rem; }
+.legal-page form { margin-bottom: var(--space-6); }
+.legal-page form button { background: var(--accent); border: 1px solid var(--accent); color: #1b140f; cursor: pointer; font: inherit; font-weight: 750; padding: 0.75rem 1rem; }
+.legal-page form button:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
 
 @media (min-width: 48rem) {
   .site-header { padding-inline: var(--space-7); }
