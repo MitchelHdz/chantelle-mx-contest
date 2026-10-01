@@ -1,9 +1,14 @@
 import Image from "next/image";
+import { connection } from "next/server";
 
 import { RegistrationForm } from "@/components/registration-form";
 import { StructuredData } from "@/components/structured-data";
+import { isRegistrationClosed } from "@/lib/config/campaign";
 
-export default function Home() {
+export default async function Home() {
+  await connection();
+  const registrationClosed = isRegistrationClosed();
+
   return (
     <main className="campaign-page">
       <StructuredData />
@@ -21,9 +26,11 @@ export default function Home() {
         <div className="hero__content">
           <h1>Chantelle te lleva a París</h1>
           <p className="hero__lead">
-            Registra tu compra Chantelle en El Palacio de Hierro y participa por una experiencia en París.
+            {registrationClosed
+              ? "El registro ha cerrado. El sorteo tendrá lugar el 23 de noviembre."
+              : "Registra tu compra Chantelle en El Palacio de Hierro y participa por una experiencia en París."}
           </p>
-          <a className="button" href="#registro">Registrar mi compra</a>
+          {!registrationClosed && <a className="button" href="#registro">Registrar mi compra</a>}
         </div>
         <div className="hero__image">
           <Image
@@ -59,15 +66,21 @@ export default function Home() {
 
       <section id="registro" className="registration-section">
         <div className="registration-section__intro">
-          <h2>Registra tu compra</h2>
-          <p>Ten a la mano tu ticket. Completar el formulario toma pocos minutos.</p>
-          <div className="privacy-note">
-            <strong>Tu información se resguarda.</strong>
-            <p>La foto del ticket es privada.</p>
-          </div>
+          <h2>{registrationClosed ? "Registro cerrado" : "Registra tu compra"}</h2>
+          {registrationClosed ? (
+            <p>El registro cerró el 15 de noviembre a las 23:59 h. El sorteo tendrá lugar el 23 de noviembre.</p>
+          ) : (
+            <p>Regístrate hasta el 15 de noviembre a las 23:59 h (hora de la Ciudad de México). El sorteo tendrá lugar el 23 de noviembre. Ten a la mano tu ticket.</p>
+          )}
+          {!registrationClosed && (
+            <div className="privacy-note">
+              <strong>Tu información se resguarda.</strong>
+              <p>La foto del ticket es privada.</p>
+            </div>
+          )}
         </div>
         <div className="registration-section__form">
-          <RegistrationForm />
+          {registrationClosed ? null : <RegistrationForm />}
         </div>
       </section>
 

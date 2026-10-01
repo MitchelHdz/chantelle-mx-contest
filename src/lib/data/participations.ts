@@ -2,7 +2,7 @@ import "server-only";
 
 import { randomUUID } from "node:crypto";
 
-import { campaign } from "@/lib/config/campaign";
+import { campaign, isRegistrationClosed } from "@/lib/config/campaign";
 import { createSupabaseAdmin } from "@/lib/supabase/admin";
 import type { ParticipationInput } from "@/lib/validation/participation";
 import { fingerprint } from "@/lib/security/crypto";
@@ -10,6 +10,10 @@ import { fingerprint } from "@/lib/security/crypto";
 const INTENT_TTL_MINUTES = 15;
 
 async function assertCampaignActive(): Promise<void> {
+  if (isRegistrationClosed()) {
+    throw new Error("CAMPAIGN_CLOSED");
+  }
+
   const supabase = createSupabaseAdmin();
   const now = Date.now();
   const { data, error } = await supabase
@@ -81,6 +85,10 @@ export async function finalizeParticipation(
   input: ParticipationInput,
   verifiedIntent: { intentId: string },
 ) {
+  if (isRegistrationClosed()) {
+    throw new Error("CAMPAIGN_CLOSED");
+  }
+
   const supabase = createSupabaseAdmin();
   const emailFingerprint = fingerprint(input.email);
   const phoneFingerprint = fingerprint(input.phone.replace(/\D/g, ""));

@@ -4,6 +4,8 @@ export const campaign = {
   brand: "Chantelle",
   partner: "El Palacio de Hierro",
   currency: "MXN",
+  // 16 de noviembre de 2026, 00:00 en Ciudad de México.
+  registrationClosesAt: "2026-11-16T06:00:00.000Z",
   allowedStores: [
     { value: "centro", label: "Palacio Centro" },
     { value: "coyoacan", label: "Palacio Coyoacán" },
@@ -27,3 +29,7 @@ export const campaign = {
 } as const;
 
 export type StoreCode = (typeof campaign.allowedStores)[number]["value"];
+
+export function isRegistrationClosed(now = Date.now()) {
+  return now >= Date.parse(campaign.registrationClosesAt);
+}
