@@ -293,8 +293,8 @@ export function RegistrationForm() {
       <label className="checkbox">
         <input name="consent" type="checkbox" required />
         <span>
-          Acepto las <a href={campaign.rulesUrl}>bases de participación</a> y el{" "}
-          <a href={campaign.privacyUrl}>aviso de privacidad</a>
+          Acepto las <a href={campaign.rulesUrl} target="_blank" rel="noopener noreferrer">bases de participación</a> y el{" "}
+          <a href={campaign.privacyUrl} target="_blank" rel="noopener noreferrer">aviso de privacidad</a>
           .
         </span>
       </label>
