@@ -97,8 +97,9 @@ export default async function Home() {
       <footer>
         <span>© {new Date().getFullYear()} Chantelle y El Palacio de Hierro</span>
         <nav aria-label="Legal">
-          <a href="/bases">Bases</a>
-          <a href="/privacidad">Privacidad</a>
+          <a href="/bases" target="_blank" rel="noopener noreferrer">Bases</a>
+          <a href="/privacidad" target="_blank" rel="noopener noreferrer">Privacidad</a>
+          <a href="/preferencias-de-medicion">Preferencias de medición</a>
         </nav>
       </footer>
     </main>

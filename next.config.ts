@@ -6,6 +6,12 @@ const nextConfig: NextConfig = {
   turbopack: {
     root: process.cwd(),
   },
+  async rewrites() {
+    return [
+      { source: "/bases", destination: "/documentos/bases-chantelle-te-lleva-a-paris.pdf" },
+      { source: "/privacidad", destination: "/documentos/aviso-de-privacidad-integral.pdf" },
+    ];
+  },
   async headers() {
     return [
       {

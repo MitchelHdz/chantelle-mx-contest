@@ -12,7 +12,7 @@ export async function POST(request: Request) {
     return new Response(null, { status: 400 });
   }
 
-  const response = NextResponse.redirect(new URL("/privacidad", request.url), { status: 303 });
+  const response = NextResponse.redirect(new URL("/preferencias-de-medicion", request.url), { status: 303 });
   if (choice === "off") {
     response.cookies.set("tracking_opt_out", "1", {
       path: "/",
