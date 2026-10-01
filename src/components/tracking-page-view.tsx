@@ -10,27 +10,35 @@ declare global {
   }
 }
 
-export function TrackingPageView({ metaEnabled, gtmEnabled }: { metaEnabled: boolean; gtmEnabled: boolean }) {
+export function TrackingPageView({ metaEnabled, capiEnabled, gtmEnabled }: { metaEnabled: boolean; capiEnabled: boolean; gtmEnabled: boolean }) {
   const pathname = usePathname();
   const previousPath = useRef<string | null>(null);
 
   useEffect(() => {
-    if (previousPath.current === null) {
-      previousPath.current = pathname;
-      return;
-    }
     if (previousPath.current === pathname) return;
+    const isInitialView = previousPath.current === null;
     previousPath.current = pathname;
 
-    if (metaEnabled) window.fbq?.("track", "PageView");
-    if (gtmEnabled) {
+    if (metaEnabled) {
+      const eventId = crypto.randomUUID();
+      window.fbq?.("track", "PageView", {}, { eventID: eventId });
+      if (capiEnabled) {
+        void fetch("/api/meta/page-view", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ eventId, pageUrl: window.location.href }),
+          keepalive: true,
+        }).catch(() => undefined);
+      }
+    }
+    if (gtmEnabled && !isInitialView) {
       window.dataLayer?.push({
         event: "virtual_page_view",
         page_path: window.location.pathname + window.location.search,
         page_title: document.title,
       });
     }
-  }, [gtmEnabled, metaEnabled, pathname]);
+  }, [capiEnabled, gtmEnabled, metaEnabled, pathname]);
 
   return null;
 }

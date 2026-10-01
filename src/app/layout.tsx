@@ -53,6 +53,7 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
 
   const optedOut = (await cookies()).get("tracking_opt_out")?.value === "1";
   const metaPixelId = optedOut ? undefined : process.env.META_PIXEL_ID?.trim();
+  const capiEnabled = Boolean(metaPixelId && process.env.META_CAPI_ACCESS_TOKEN?.trim());
   const gtmId = optedOut ? undefined : process.env.GTM_CONTAINER_ID?.trim();
   if (metaPixelId && !/^\d+$/.test(metaPixelId)) throw new Error("META_PIXEL_ID debe contener solo dígitos.");
   if (gtmId && !/^GTM-[A-Z0-9]+$/.test(gtmId)) throw new Error("GTM_CONTAINER_ID debe tener formato GTM-XXXX.");
@@ -67,7 +68,7 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
         ) : null}
         {metaPixelId ? (
           <Script id="meta-pixel" strategy="beforeInteractive">
-            {`!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');fbq('init',${JSON.stringify(metaPixelId)});fbq('track','PageView');`}
+            {`!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');fbq('init',${JSON.stringify(metaPixelId)});`}
           </Script>
         ) : null}
       </head>
@@ -81,7 +82,7 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
           <noscript><img src={`https://www.facebook.com/tr?id=${metaPixelId}&ev=PageView&noscript=1`} height="1" width="1" style={{ display: "none" }} alt="" /></noscript>
         ) : null}
         {children}
-        <TrackingPageView metaEnabled={Boolean(metaPixelId)} gtmEnabled={Boolean(gtmId)} />
+        <TrackingPageView metaEnabled={Boolean(metaPixelId)} capiEnabled={capiEnabled} gtmEnabled={Boolean(gtmId)} />
       </body>
     </html>
   );

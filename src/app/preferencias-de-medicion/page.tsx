@@ -18,7 +18,7 @@ export default async function TrackingPreferencesPage() {
       <h1>Preferencias de medición</h1>
       <section className="legal-preferences">
         <h2>Controla la medición en este navegador</h2>
-        <p>Este sitio utiliza Meta Pixel y Google Tag Manager, cuando están configurados, para medir visitas y campañas. Estas herramientas pueden usar cookies o tecnologías similares. Al continuar navegando en el sitio, aceptas este uso. Esta implementación no envía explícitamente a esas herramientas los datos capturados en el formulario de registro.</p>
+        <p>Este sitio utiliza Meta Pixel, la API de conversiones de Meta y Google Tag Manager, cuando están configurados, para medir visitas y registros. Estas herramientas pueden usar cookies o tecnologías similares. Al continuar navegando en el sitio, aceptas este uso. Para los eventos de Meta se pueden enviar dirección IP, navegador e identificadores de cookies; cuando el registro se completa, también se envían el correo y teléfono normalizados y transformados mediante hash SHA-256 para ayudar a asociar el evento. No se envían a Meta la foto del ticket ni los demás campos del formulario.</p>
         <form action="/api/tracking-preferences" method="post">
           <button type="submit" name="tracking" value={optedOut ? "on" : "off"}>
             {optedOut ? "Reactivar medición" : "Desactivar medición"}

@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { cookies } from "next/headers";
 import { connection } from "next/server";
 
 import { RegistrationForm } from "@/components/registration-form";
@@ -8,6 +9,7 @@ import { isRegistrationClosed } from "@/lib/config/campaign";
 export default async function Home() {
   await connection();
   const registrationClosed = isRegistrationClosed();
+  const metaEnabled = Boolean(process.env.META_PIXEL_ID?.trim()) && (await cookies()).get("tracking_opt_out")?.value !== "1";
 
   return (
     <main className="campaign-page">
@@ -80,7 +82,7 @@ export default async function Home() {
           )}
         </div>
         <div className="registration-section__form">
-          {registrationClosed ? null : <RegistrationForm />}
+          {registrationClosed ? null : <RegistrationForm metaEnabled={metaEnabled} />}
         </div>
       </section>
 

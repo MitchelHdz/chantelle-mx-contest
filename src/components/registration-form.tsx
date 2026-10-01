@@ -10,11 +10,12 @@ type FormStatus = "idle" | "preparing" | "uploading" | "submitting" | "success" 
 type ApiResult = {
   ok: boolean;
   uploadIntent?: string;
+  eventId?: string;
   code?: string;
   message?: string;
 };
 
-export function RegistrationForm() {
+export function RegistrationForm({ metaEnabled }: { metaEnabled: boolean }) {
   const formRef = useRef<HTMLFormElement>(null);
   const receiptInputRef = useRef<HTMLInputElement>(null);
   const dragDepthRef = useRef(0);
@@ -175,6 +176,9 @@ export function RegistrationForm() {
         throw submissionError;
       }
 
+      if (metaEnabled && result.eventId) {
+        window.fbq?.("track", "CompleteRegistration", {}, { eventID: result.eventId });
+      }
       setStatus("success");
       formRef.current?.reset();
       updateReceipt(null);

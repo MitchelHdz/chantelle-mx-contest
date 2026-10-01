@@ -1,10 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
 import { after } from "next/server";
+import { randomUUID } from "node:crypto";
 import { ZodError } from "zod";
 
 import { finalizeParticipation } from "@/lib/data/participations";
 import { apiError } from "@/lib/http/response";
 import { processGoogleSheetsOutbox } from "@/lib/integrations/google-sheets-outbox";
+import { sendMetaConversion } from "@/lib/integrations/meta-conversions";
 import { verifyUploadIntentToken } from "@/lib/security/crypto";
 import { enforceRateLimit } from "@/lib/security/rate-limit";
 import { assertJsonRequest, assertSameOrigin, getClientAddress } from "@/lib/security/request";
@@ -27,6 +29,7 @@ export async function POST(request: NextRequest) {
     const intent = verifyUploadIntentToken(input.uploadIntent);
 
     await finalizeParticipation(input, intent);
+    const eventId = randomUUID();
 
     after(async () => {
       try {
@@ -36,7 +39,24 @@ export async function POST(request: NextRequest) {
       }
     });
 
-    return NextResponse.json({ ok: true }, { status: 201 });
+    if (request.cookies.get("tracking_opt_out")?.value !== "1") {
+      after(async () => {
+        try {
+          await sendMetaConversion({
+            request,
+            name: "CompleteRegistration",
+            eventId,
+            sourceUrl: new URL("/", request.nextUrl.origin).toString(),
+            email: input.email,
+            phone: input.phone,
+          });
+        } catch {
+          console.error("No se pudo enviar CompleteRegistration a Meta Conversions API");
+        }
+      });
+    }
+
+    return NextResponse.json({ ok: true, eventId }, { status: 201 });
   } catch (error) {
     if (error instanceof ZodError) {
       return NextResponse.json(
